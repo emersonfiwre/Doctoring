@@ -14,6 +14,7 @@
 
 
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/img_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_chevron_right_black_24dp"
