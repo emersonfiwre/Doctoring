@@ -3,6 +3,7 @@ package com.intacta.doctoring.beans;
 public class Compromisso {
     private String data;
     private String cliente;
+    private String compromissos;
 
     public Compromisso(String data, String cliente, String compromissos) {
         this.data = data;
@@ -10,7 +11,7 @@ public class Compromisso {
         this.compromissos = compromissos;
     }
 
-    private String compromissos;
+
 
 
     public String getData() {
