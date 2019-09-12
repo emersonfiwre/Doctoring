@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "353369458663",
+    "firebase_url": "https://doctoring-app.firebaseio.com",
+    "project_id": "doctoring-app",
+    "storage_bucket": "doctoring-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353369458663:android:2598efe8ac95c50c41df42",
+        "android_client_info": {
+          "package_name": "com.intacta.doctoring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353369458663-ikmeqf3kvcq7at6rtr0mr4f1apc3g0h4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.intacta.doctoring",
+            "certificate_hash": "27f9c3e4d6329afb5ec5c475f97e4c1a6fe0f664"
+          }
+        },
+        {
+          "client_id": "353369458663-kume6tubk3r390jc8650red3386vnnc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLZn677C0dpK4Tfg1dZb5GK1aygjp4pRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353369458663-kume6tubk3r390jc8650red3386vnnc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
