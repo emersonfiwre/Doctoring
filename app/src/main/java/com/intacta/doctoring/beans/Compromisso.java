@@ -3,18 +3,15 @@ package com.intacta.doctoring.beans;
 public class Compromisso {
     private String data;
     private String cliente;
-    private String id;
-
-
-
     private String compromissos;
 
-    public Compromisso(String data, String cliente, String id, String compromissos) {
+    public Compromisso(String data, String cliente, String compromissos) {
         this.data = data;
         this.cliente = cliente;
-        this.id = id;
         this.compromissos = compromissos;
     }
+
+
 
 
     public String getData() {
@@ -39,14 +36,6 @@ public class Compromisso {
 
     public void setCompromissos(String compromissos) {
         this.compromissos = compromissos;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
 
