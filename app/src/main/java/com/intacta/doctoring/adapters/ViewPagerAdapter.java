@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
-import com.intacta.doctoring.Utils.Tools;
+import com.intacta.doctoring.utils.Tools;
 import com.intacta.doctoring.beans.Compromisso;
 
 import java.util.ArrayList;

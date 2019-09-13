@@ -12,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.intacta.doctoring.Utils.Alerts;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.fragments.ClientFragment;
 import com.intacta.doctoring.fragments.HomeFragment;
 
@@ -23,6 +26,9 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
     private FrameLayout frame;
     private FloatingActionButton floatbutton;
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +36,19 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
         initView();
+        startFirebase();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame, new HomeFragment())
                 .commit();
     }
+
+    private void startFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
