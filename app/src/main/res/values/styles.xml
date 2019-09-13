@@ -3,9 +3,33 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/comfortaamedium</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarStyle">@style/Toolbar</item>
+    </style>
+
+
+    <style name="Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
+    </style>
+
+    <style name="ExpandedTitle" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:fontFamily">@font/comfortaabold</item>
+    </style>
+
+<style name="ToolbarSubstitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+    <item name="android:fontFamily">@font/comfortaalight</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
+</style>
+    <style name="ToolbarTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">@font/comfortaabold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
 </resources>

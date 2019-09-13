@@ -15,17 +15,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.Utils.Tools;
+import com.intacta.doctoring.beans.Compromisso;
 
 import java.util.ArrayList;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
 
-    private ArrayList<String> datas;
+    private ArrayList<Compromisso> compromissos;
     private Activity activity;
     @Override
     public int getCount() {
-        return datas.size();
+        return compromissos.size();
     }
 
     @Override
@@ -43,18 +45,18 @@ public class ViewPagerAdapter extends PagerAdapter {
         }
         assert view != null;
         RecyclerView recyclerView = view.findViewById(R.id.daylist);
-
+        GetList(compromissos.get(position),recyclerView);
 
         container.addView(view);
         return view;
     }
 
 
-    private void GetList(String id,RecyclerView recyclerView){
+    private void GetList(Compromisso compromisso,RecyclerView recyclerView){
 
 
-        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference("Compromisso")
-                .child(id).addValueEventListener(new ValueEventListener() {
+        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference(Tools.compromisses)
+                .child(compromisso.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

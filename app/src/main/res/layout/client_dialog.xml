@@ -7,12 +7,11 @@
 
     <TextView
         android:padding="10dp"
-        android:layout_margin="10dp"
-        android:textAlignment="center"
+         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:text="Adicionar novo cliente"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/ToolbarTitle"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
