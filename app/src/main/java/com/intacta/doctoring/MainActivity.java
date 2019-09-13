@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("LOG","randomUUID()");
-        String teste  = (UUID.randomUUID().toString());
+
 
         startFirebase();
 
