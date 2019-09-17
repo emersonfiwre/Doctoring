@@ -2,15 +2,22 @@ package com.intacta.doctoring.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -27,6 +34,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -140,20 +148,65 @@ public class Alerts {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void CompromissoAlert(){
         AlertDialog.Builder db = new AlertDialog.Builder(activity,R.style.AppTheme);
-        db.setView(R.layout.compromisso_dialog);
+        //db.setView(R.layout.compromisso_dialog);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View mView = inflater.inflate(R.layout.compromisso_dialog, null);
+        db.setView(mView);
+
+        final Spinner client = mView.findViewById(R.id.spinner_cliente);
+        final TextInputLayout service = mView.findViewById(R.id.txl_service);
+        final DatePicker datePicker = mView.findViewById(R.id.date_compromisso);
+
         db.setPositiveButton("Proximo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                service.getEditText().getText().toString();
+                int   day  = datePicker.getDayOfMonth();
+                int   month= datePicker.getMonth() + 1;
+                int   year = datePicker.getYear();
+                String data= String.valueOf(day) +"/" + String.valueOf(month)  +"/" + String.valueOf(year);
+                service.getEditText().getText();
+                timePicker();
             }
         });
-        db.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        db.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
-        Dialog dialog = db.show();
+        Dialog dialog = db.create();
+
+        /*dialog.setContentView(R.layout.compromisso_dialog);
+
+        Spinner client = dialog.findViewById(R.id.spinner_cliente);
+        TextInputLayout service = dialog.findViewById(R.id.txl_service);
+        DatePicker datePicker = dialog.findViewById(R.id.date_compromisso);
+        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Log.d("LOG", dayOfMonth + "/ " + monthOfYear +"/"+year);
+            }
+        });
+        //Log.i("LOG", currentDay + "/ " + currentMonth +"/"+currentYear);*/
+
+        dialog.show();
+
+    }
+
+    private void timePicker(){
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                Log.i("LOG", "hora:" + hourOfDay + " min: " + minutes);
+            }
+        }, currentHour, currentMinute, true);
+        timePickerDialog.show();
     }
 
 

@@ -36,11 +36,11 @@
             <Spinner
                 android:backgroundTint="@color/md_grey_200"
                 android:layout_width="match_parent"
-                android:autofillHints="@string/app_name"
+                android:id="@+id/spinner_cliente"
                 android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edt_service"
+            android:id="@+id/txl_service"
             android:hint="@string/servico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -59,7 +59,8 @@
             app:cardBackgroundColor="@color/md_grey_100"
             android:orientation="vertical"
             android:padding="10dp"
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:gravity="center"
@@ -82,7 +83,7 @@
                 <DatePicker
                     android:foregroundTint="@color/colorAccent"
                     android:calendarTextColor="@color/colorPrimary"
-                    android:id="@+id/calendar"
+                    android:id="@+id/date_compromisso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
