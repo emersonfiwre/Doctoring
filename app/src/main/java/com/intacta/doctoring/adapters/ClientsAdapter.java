@@ -20,6 +20,11 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
     private Activity activity;
     private ArrayList<Cliente> clientes;
 
+    public ClientsAdapter(Activity activity, ArrayList<Cliente> clientes) {
+        this.activity = activity;
+        this.clientes = clientes;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -32,7 +37,7 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Cliente cliente = clientes.get(position);
+        Cliente cliente = clientes.get(holder.getAdapterPosition());
         if (!cliente.getId().equals("No clients")) {
             holder.name.setText(cliente.getNome());
             holder.email.setText(cliente.getEmail());

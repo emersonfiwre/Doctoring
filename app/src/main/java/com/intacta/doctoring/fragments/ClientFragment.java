@@ -10,14 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.utils.Tools;
 
@@ -52,28 +57,47 @@ public class ClientFragment extends Fragment {
         clients = (RecyclerView) view.findViewById(R.id.clients);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        Carregar();
 
     }
 
 
     private void Carregar(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Cliente> clientes = new ArrayList<>();
-        clientes.clear();
-        DatabaseReference patientref = (DatabaseReference) FirebaseDatabase.getInstance().getReference(Tools.patients)
-                .equalTo("key","doctor").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.exists()){
-                            Cliente c = new Cliente();
-                            c.setId("No clients");
-                            clientes.add(c);
-                        }
-                    }
+        clients.removeAllViews();
+        Query databasereference = FirebaseDatabase.getInstance().getReference().child(Tools.patients).orderByChild("doctor")
+                .startAt(user.getUid()).endAt(user.getUid() +"\uf8ff");
+        databasereference.keepSynced(true);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        databasereference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                clientes.clear();
+                if (!dataSnapshot.exists()){
+                    Cliente c = new Cliente();
+                    c.setId("No clients");
+                    clientes.add(c);
+                }else{
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        Cliente ci = d.getValue(Cliente.class);
+                        ci.setId(d.getKey());
+                        //System.out.println(diary.getData() + diary.getFiscal() + diary.getLocal());
+                        clientes.add(ci);
                     }
-                });
+                }
+                System.out.println("There are " +clientes.size());
+                ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(),clientes);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(),1,RecyclerView.VERTICAL,false);
+                clients.setAdapter(clientsAdapter);
+                clients.setLayoutManager(llm);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

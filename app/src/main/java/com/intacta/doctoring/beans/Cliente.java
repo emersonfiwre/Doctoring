@@ -8,6 +8,10 @@ public class Cliente {
     private String dataNascimento;
     private String id;
 
+
+
+
+
     public String getDoctor() {
         return doctor;
     }

@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,26 +50,28 @@ public class Alerts {
         this.activity = activity;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert(){
         Dialog dialog = new Dialog(activity,R.style.AppTheme);
         dialog.setContentView(R.layout.client_dialog);
 
-        Button savebtn = dialog.findViewById(R.id.savebtn) ;
+        final Button savebtn = dialog.findViewById(R.id.savebtn) ;
        final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
        final TextInputLayout phonefield = dialog.findViewById(R.id.phonefield);
         final TextInputLayout emailfield = dialog.findViewById(R.id.emailfield);
         final TextView datatext = dialog.findViewById(R.id.datatext);
+        final TextView title = dialog.findViewById(R.id.title);
 
 
-
-        CalendarView calendarView = dialog.findViewById(R.id.calendar);
+        final DatePicker calendarView = dialog.findViewById(R.id.calendar);
 
         calendarView.setMaxDate(new Date().getTime());
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+        calendarView.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                datatext.setText(String.format("%d/%d/%d", dayOfMonth, month, year));
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                datatext.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear, year));
             }
         });
 
@@ -75,8 +79,8 @@ public class Alerts {
        savebtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               savebtn.setEnabled(false);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
                if (user != null) {
                    Cliente cliente = new Cliente();
                    cliente.setNome(clientname.getEditText().getText().toString());
@@ -85,6 +89,12 @@ public class Alerts {
                    cliente.setEmail(emailfield.getEditText().getText().toString());
                    cliente.setDoctor(user.getUid());
                    saveclient(cliente);
+                   clientname.setVisibility(View.GONE);
+                   emailfield.setVisibility(View.GONE);
+                   phonefield.setVisibility(View.GONE);
+                   datatext.setVisibility(View.GONE);
+                   calendarView.setVisibility(View.GONE);
+                   title.setText("Cliente Adicionado com sucesso!");
                }else{
                    AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
                    builder.setMessage("Não é possível fazer isso se estiver desconectado");

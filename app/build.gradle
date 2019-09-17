@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.0.0'
 
     implementation 'com.github.matecode:Snacky:1.1.4'
-
+    implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
