@@ -1,70 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="4dp"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:padding="10dp"
-         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Adicionar novo cliente"
-        style="@style/ToolbarTitle"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_margin="20dp"
+        android:padding="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputLayout
-            android:hint="Nome do cliente..."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:backgroundTint="@color/md_grey_200"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:hint="Telefone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:backgroundTint="@color/md_grey_200"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:hint="Data de nascimento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:backgroundTint="@color/md_grey_200"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <Button
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_margin="15dp"
-            android:backgroundTint="@color/colorAccent"
+        <TextView
+            android:background="@drawable/bottom_line"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="@drawable/round"
-            android:text="Salvar"
+            android:text="Adicionar novo paciente"
+            style="@style/ToolbarTitle"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:nextFocusRight="@id/emailfield"
 
+                android:id="@+id/clientname"
+                android:hint="Nome do paciente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:backgroundTint="@color/md_grey_200"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:nextFocusRight="@id/phonefield"
+                android:id="@+id/emailfield"
+                android:hint="E-mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:backgroundTint="@color/md_grey_200"
+                    android:inputType="textEmailAddress"
+                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phonefield"
+                 android:hint="Telefone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:inputType="phone"
+                    android:backgroundTint="@color/md_grey_200"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:animateLayoutChanges="true"
+                android:backgroundTint="@color/colorAccent"
+                android:background="@drawable/roundstroke"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    android:text="Data de nascimento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/datatext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <CalendarView
+                    android:id="@+id/calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
+    <Button
+
+        android:id="@+id/savebtn"
+         android:backgroundTint="@color/colorAccent"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/round"
+        android:text="Salvar"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

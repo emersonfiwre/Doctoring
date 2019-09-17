@@ -57,7 +57,7 @@ public class ClientFragment extends Fragment {
 
 
     private void Carregar(){
-        ArrayList<Cliente> clientes = new ArrayList<>();
+        final ArrayList<Cliente> clientes = new ArrayList<>();
         clientes.clear();
         DatabaseReference patientref = (DatabaseReference) FirebaseDatabase.getInstance().getReference(Tools.patients)
                 .equalTo("key","doctor").addValueEventListener(new ValueEventListener() {
@@ -66,6 +66,7 @@ public class ClientFragment extends Fragment {
                         if (!dataSnapshot.exists()){
                             Cliente c = new Cliente();
                             c.setId("No clients");
+                            clientes.add(c);
                         }
                     }
 

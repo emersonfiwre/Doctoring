@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,13 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        Cliente cliente = clientes.get(position);
+        if (!cliente.getId().equals("No clients")) {
+            holder.name.setText(cliente.getNome());
+            holder.email.setText(cliente.getEmail());
+        }else{
+            holder.name.setText("Você não possui pacientes no momento...");
+        }
     }
 
     @Override
@@ -39,13 +46,17 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
         return clientes.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-
+        private TextView name,email,age;
         public MyViewHolder(View view) {
             super(view);
 
+
+            name = view.findViewById(R.id.name);
+            email = view.findViewById(R.id.email);
+            age = view.findViewById(R.id.age);
 
 
 
