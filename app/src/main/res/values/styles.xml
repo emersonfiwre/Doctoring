@@ -43,5 +43,9 @@
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
     </style-->
 
+    <!--style- name="MyDatePicker" parent="android:Theme.Holo.Light.Dialog.MinWidth">
+
+    </style-->
+
 
 </resources>

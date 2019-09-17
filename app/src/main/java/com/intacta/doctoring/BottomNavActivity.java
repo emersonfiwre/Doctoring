@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.fragments.ClientFragment;
 import com.intacta.doctoring.fragments.HomeFragment;
@@ -35,7 +37,7 @@ import java.util.List;
 
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
-public class BottomNavActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class BottomNavActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener , RecyclerViewOnClickListenerHack {
     private Activity activity = this;
     private RelativeLayout container;
     private BottomNavigationView navView;
@@ -57,10 +59,14 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                 .beginTransaction()
                 .replace(R.id.frame, new HomeFragment())
                 .commit();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null){
-            login();
-        }
+
+        floatbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Alerts alerts = new Alerts(activity);
+                alerts.CompromissoAlert();
+            }
+        });
     }
 
     private void startFirebase(){
@@ -75,6 +81,13 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                  floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+                floatbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Alerts alerts = new Alerts(activity);
+                        alerts.CompromissoAlert();
+                    }
+                });
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, new HomeFragment())
@@ -125,6 +138,16 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
             }
         }
     }
+    @Override
+    public void onClickListener(View view, int position) {
+        Toast.makeText(this, "onClickListener(): "+position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongPressClickListener(View view, int position) {
+        Toast.makeText(this, "onLongPressClickListener(): "+position, Toast.LENGTH_SHORT).show();
+    }
+
 
     private void initView() {
         container = findViewById(R.id.container);
@@ -140,9 +163,6 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
             buildlogin();
 
         }
-
-
-
 
 
     }

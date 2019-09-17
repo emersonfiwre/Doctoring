@@ -2,17 +2,17 @@ package com.intacta.doctoring.beans;
 
 public class Compromisso {
     private String id;
-    private String data;
     private String cliente;
-    private String compromissos;
+    private String compromisso;
+    private String data;
+    private String time;
 
-
-
-    public Compromisso(String id, String data, String cliente, String compromissos) {
+    public Compromisso(String id, String data, String time, String cliente, String compromisso) {
         this.id = id;
         this.data = data;
+        this.time = time;
         this.cliente = cliente;
-        this.compromissos = compromissos;
+        this.compromisso = compromisso;
     }
 
 
@@ -32,12 +32,12 @@ public class Compromisso {
         this.cliente = cliente;
     }
 
-    public String getCompromissos() {
-        return compromissos;
+    public String getCompromisso() {
+        return compromisso;
     }
 
-    public void setCompromissos(String compromissos) {
-        this.compromissos = compromissos;
+    public void setCompromisso(String compromisso) {
+        this.compromisso = compromisso;
     }
 
     public String getId() {
@@ -46,6 +46,14 @@ public class Compromisso {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
 

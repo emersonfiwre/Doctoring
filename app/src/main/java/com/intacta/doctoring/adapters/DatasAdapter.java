@@ -5,24 +5,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 
 import java.util.List;
 
 public class DatasAdapter extends RecyclerView.Adapter<DatasAdapter.MyViewHolder>{
-    private List<Compromisso> compromissos;
+    private List<Compromisso> mListCompromissos;
     private LayoutInflater layoutInflater;
-
+    private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
 
 
     public DatasAdapter(Context context, List<Compromisso> compromissos){
-        this.compromissos = compromissos;
+        this.mListCompromissos = compromissos;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -38,23 +38,52 @@ public class DatasAdapter extends RecyclerView.Adapter<DatasAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.i("LOG","onBindViewHolder()");
-        holder.txtData.setText(compromissos.get(position).getData());
+        holder.txtCliente.setText(mListCompromissos.get(position).getCliente());
+        holder.txtServico.setText(mListCompromissos.get(position).getCompromisso());
+        holder.txtTime.setText(mListCompromissos.get(position).getTime());
+    }
+
+
+    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
+        mRecyclerViewOnClickListenerHack = r;
+    }
+
+    public void addListItem(Compromisso c, int position){
+        mListCompromissos.add(position, c);
+        notifyItemInserted(position);
+    }
+
+
+    public void removeListItem(int position){
+        mListCompromissos.remove(position);
+        notifyItemRemoved(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return compromissos.size();
+        return mListCompromissos.size();
     }
 
-    public  class MyViewHolder extends  RecyclerView.ViewHolder {
-        public TextView txtData;
-        public ImageButton imgMore;
+    public  class MyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView txtCliente;
+        public TextView txtServico;
+        public TextView txtTime;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            txtCliente = itemView.findViewById(R.id.txt_cliente);
+            txtServico = itemView.findViewById(R.id.txt_service);
+            txtTime = itemView.findViewById(R.id.txt_time);
+        }
 
+        @Override
+        public void onClick(View v) {
+            if( mRecyclerViewOnClickListenerHack == null ) {
+                mRecyclerViewOnClickListenerHack.onClickListener(v,getAdapterPosition());
+            }
         }
     }
 }

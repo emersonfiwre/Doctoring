@@ -140,14 +140,24 @@ public class Alerts {
 
     }
 
+    public void CompromissoAlert(){
+        AlertDialog.Builder db = new AlertDialog.Builder(activity,R.style.AppTheme);
+        db.setView(R.layout.compromisso_dialog);
+        db.setPositiveButton("Proximo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        db.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-    private void datedialog(final TextInputLayout datefield){
-
-
-
-
-
+            }
+        });
+        Dialog dialog = db.show();
     }
+
+
+
 
 }
 

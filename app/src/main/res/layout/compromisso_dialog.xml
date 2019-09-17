@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="4dp"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:background="@drawable/bottom_line"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Adicionar novo compromisso"
+        style="@style/ToolbarTitle"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cliente"
+                android:layout_margin="4dp"
+                android:textSize="14sp"/>
+
+            <Spinner
+                android:backgroundTint="@color/md_grey_200"
+                android:layout_width="match_parent"
+                android:autofillHints="@string/app_name"
+                android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_service"
+            android:hint="@string/servico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:inputType="textMultiLine"
+                android:backgroundTint="@color/md_grey_200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            android:animateLayoutChanges="true"
+            app:cardBackgroundColor="@color/md_grey_100"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center"
+                android:padding="2dp"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    android:text="@string/data_compromisso"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:background="@color/colorAccent"
+                    android:layout_height="wrap_content" />
+
+                <DatePicker
+                    android:foregroundTint="@color/colorAccent"
+                    android:calendarTextColor="@color/colorPrimary"
+                    android:id="@+id/calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</LinearLayout>
