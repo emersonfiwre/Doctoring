@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.intacta.doctoring.R;
 
 /**
@@ -45,6 +47,9 @@ public class HomeFragment extends Fragment {
         tabs = (TabLayout) v.findViewById(R.id.tabs);
         compromissespager = (ViewPager) v.findViewById(R.id.compromissespager);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        toolbar.setTitle("Olá " + user.getDisplayName());
+        toolbar.setSubtitle("Nenhuma consulta para hoje");
 
     }
 }

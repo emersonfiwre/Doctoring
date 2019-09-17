@@ -24,9 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.database.core.utilities.Utilities;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -57,14 +59,21 @@ public class Alerts {
 
         final DatePicker calendarView = dialog.findViewById(R.id.calendar);
 
+
+
         calendarView.setMaxDate(new Date().getTime());
+
 
 
         calendarView.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                datatext.setText(String.format("%d/%d/%d", dayOfMonth + 1, monthOfYear, year));
-            }
+                Calendar myCalendar = Calendar.getInstance();
+                Date dia;
+                myCalendar.set(year, monthOfYear, dayOfMonth);
+                dia = myCalendar.getTime();
+                datatext.setText(Tools.formattomyday(dia));
+             }
         });
 
 

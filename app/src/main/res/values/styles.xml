@@ -23,6 +23,8 @@
         <item name="android:fontFamily">@font/comfortaabold</item>
     </style>
 
+
+
 <style name="ToolbarSubstitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
     <item name="android:fontFamily">@font/comfortaalight</item>
     <item name="android:textStyle">bold</item>

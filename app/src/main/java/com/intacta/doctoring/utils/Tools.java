@@ -1,5 +1,8 @@
 package com.intacta.doctoring.utils;
 
+import android.annotation.SuppressLint;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +16,8 @@ import static java.util.Calendar.YEAR;
 public class Tools {
     public static String compromisses = "Compromisso";
     public static String patients = "Pacientes";
+    public static String notifications = "Notifications";
+
     public static final int RC_SIGN_IN = 123;
 
 
@@ -25,7 +30,11 @@ public class Tools {
     }
 
 
+    public static String formattomyday(Date date){
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(date);
 
+    }
 
     public static Calendar getCalendar(Date date) {
         Calendar cal = Calendar.getInstance(Locale.US);
