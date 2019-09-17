@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -54,6 +56,10 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                 .beginTransaction()
                 .replace(R.id.frame, new HomeFragment())
                 .commit();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null){
+            login();
+        }
     }
 
     private void startFirebase(){
@@ -78,6 +84,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
             case R.id.navigation_dashboard:
                  floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_add_black_24dp));
                 floatbutton.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
                         Alerts alerts = new Alerts(activity);

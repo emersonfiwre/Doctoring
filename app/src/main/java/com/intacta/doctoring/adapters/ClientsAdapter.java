@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHolder> {
 
@@ -41,6 +45,13 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
         if (!cliente.getId().equals("No clients")) {
             holder.name.setText(cliente.getNome());
             holder.email.setText(cliente.getEmail());
+            try {
+
+                Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(cliente.getDataNascimento());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }else{
             holder.name.setText("Você não possui pacientes no momento...");
         }

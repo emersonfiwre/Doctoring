@@ -38,7 +38,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import de.mateware.snacky.Snacky;
 
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
