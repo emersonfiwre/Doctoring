@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.intacta.doctoring.fragments.NotificationsFragment;
 import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.fragments.ClientFragment;
@@ -80,6 +81,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
+                floatbutton.show();
                  floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
                 floatbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -96,6 +98,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
 
                 return true;
             case R.id.navigation_dashboard:
+                floatbutton.show();
                  floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_add_black_24dp));
                 floatbutton.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -111,7 +114,13 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                         .replace(R.id.frame, new ClientFragment())
                         .commit();
                 return true;
-
+            case R.id.navigation_notifications:
+                floatbutton.hide();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,new NotificationsFragment())
+                        .commit();
+                return true;
             default: return false;
 
         }

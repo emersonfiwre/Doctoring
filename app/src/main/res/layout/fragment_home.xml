@@ -16,22 +16,23 @@
             app:title="Olá Caio,"
             app:subtitle="10 compromissos para hoje"
             android:id="@+id/toolbar"
-            android:layout_height="wrap_content"
+             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:layout_scrollFlags="scroll|enterAlways">
          </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
-            android:layout_margin="5dp"
+            app:tabBackground="@drawable/select_card"
+            android:layout_margin="1dp"
             app:tabMaxWidth="50dp"
+            app:tabTextAppearance="@style/ToolbarTitle"
             app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/md_grey_500"
-            app:tabIndicatorColor="@color/fui_transparent"
-            android:id="@+id/tabs"
+            app:tabTextColor="@color/md_grey_400"
+             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@drawable/select_card"
-            app:tabIndicatorAnimationDuration="500"
+            app:tabIndicatorColor="@color/transparent"
+             app:tabIndicatorAnimationDuration="500"
             app:tabMode="scrollable">
         </com.google.android.material.tabs.TabLayout>
 

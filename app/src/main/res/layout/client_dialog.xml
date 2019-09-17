@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:cardCornerRadius="10dp"
-    android:layout_margin="4dp"
-    android:background="@color/white"
+     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,9 +24,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.google.android.material.textfield.TextInputLayout
                 android:nextFocusRight="@id/emailfield"
+
                 android:id="@+id/clientname"
                 android:hint="Nome do paciente"
                 android:layout_width="match_parent"
@@ -38,7 +37,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:nextFocusRight="@id/phonefield"
                 android:id="@+id/emailfield"
@@ -94,6 +92,7 @@
                         android:layout_height="wrap_content" />
 
                     <DatePicker
+
                         android:foregroundTint="@color/colorAccent"
                         android:calendarTextColor="@color/colorPrimary"
                         style="@android:style/Widget.DatePicker"
@@ -106,16 +105,18 @@
 
             </androidx.cardview.widget.CardView>
 
+
+
+
         </LinearLayout>
     <Button
-        android:id="@+id/savebtn"
+         android:id="@+id/savebtn"
         android:backgroundTint="@color/colorAccent"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:background="@drawable/round"
         android:text="Salvar"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
+         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
