@@ -2,18 +2,13 @@ package com.intacta.doctoring.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -23,7 +18,6 @@ import androidx.annotation.RequiresApi;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +27,6 @@ import com.google.firebase.database.annotations.NotNull;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +63,7 @@ public class Alerts {
         calendarView.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                datatext.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear, year));
+                datatext.setText(String.format("%d/%d/%d", dayOfMonth + 1, monthOfYear, year));
             }
         });
 
@@ -118,7 +111,7 @@ public class Alerts {
     }
 
 
-    private void saveclient(Cliente cliente){
+     protected void saveclient(Cliente cliente){
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Adicionando cliente");
         DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.patients);

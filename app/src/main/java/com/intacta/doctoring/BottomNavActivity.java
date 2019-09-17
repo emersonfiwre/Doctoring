@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -111,7 +112,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
         if (requestCode == RC_SIGN_IN){
             if (resultCode != RESULT_OK){
                 AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                dialog.setTitle("Desconectado!").setMessage("Você está desconectado, se não fizer login não será possível utilizar o aplicativo!");
+                dialog.setTitle("Desconectado!").setMessage("Você está desconectado, se não fizer login não será possível utilizar o aplicativo!("+data.getDataString()+")");
                 dialog.setPositiveButton("Realizar login", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
+import com.intacta.doctoring.utils.Tools;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
         LayoutInflater mInflater = LayoutInflater.from(activity);
         view = mInflater.inflate(R.layout.client_card,parent,false);
 
+
         return new MyViewHolder(view);
     }
 
@@ -46,8 +48,19 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
             holder.name.setText(cliente.getNome());
             holder.email.setText(cliente.getEmail());
             try {
+                System.out.println("Client born " + cliente.getDataNascimento());
+                Calendar now = Calendar.getInstance();
+                SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyy");
+                Date born = formatter.parse(cliente.getDataNascimento());
+                Calendar borndate = Calendar.getInstance();
+                borndate.setTime(born);
 
-                Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(cliente.getDataNascimento());
+                System.out.println("born year " + borndate.get(Calendar.YEAR));
+                System.out.println("actual year " + now.get(Calendar.YEAR));
+                int age = now.get(Calendar.YEAR) - borndate.get(Calendar.YEAR);
+
+                holder.age.setText(String.format("%s anos", String.valueOf(age)));
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
