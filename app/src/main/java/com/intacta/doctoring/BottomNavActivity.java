@@ -36,6 +36,8 @@ import com.intacta.doctoring.fragments.HomeFragment;
 import java.util.Collections;
 import java.util.List;
 
+import cat.ereza.customactivityoncrash.config.CaocConfig;
+
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
 public class BottomNavActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener , RecyclerViewOnClickListenerHack {
@@ -50,11 +52,16 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_bottom_nav);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
         initView();
+
         startFirebase();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -69,6 +76,8 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                 alerts.CompromissoAlert();
             }
         });
+
+
     }
 
     private void startFirebase(){
@@ -83,7 +92,11 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 floatbutton.show();
-                 floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+
+                if (floatbutton.isOrWillBeShown()) {
+                    floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+
+                }
                 floatbutton.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
@@ -100,9 +113,10 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
 
                 return true;
             case R.id.navigation_dashboard:
-                floatbutton.show();
-                 floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_add_black_24dp));
-                floatbutton.setOnClickListener(new View.OnClickListener() {
+                floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_add_black_24dp));
+                if (floatbutton.isOrWillBeHidden()) {
+                    floatbutton.show();
+                }                floatbutton.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {

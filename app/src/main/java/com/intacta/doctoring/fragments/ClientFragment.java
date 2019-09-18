@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.beans.Cliente;
+import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.utils.Tools;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ClientFragment extends Fragment {
         clients = (RecyclerView) view.findViewById(R.id.clients);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        Carregar();
+         Carregar();
 
     }
 
