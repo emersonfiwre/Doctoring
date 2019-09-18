@@ -34,6 +34,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.database.core.utilities.Utilities;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
+import com.intacta.doctoring.database.Clientsdb;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -96,14 +97,29 @@ public class Alerts {
                    cliente.setTelefone(phonefield.getEditText().getText().toString());
                    cliente.setEmail(emailfield.getEditText().getText().toString());
                    cliente.setDoctor(user.getUid());
+                   clientname.setEnabled(false);
+                   emailfield.setEnabled(false);
+                   phonefield.setEnabled(false);
+                   datatext.setEnabled(false);
+                   calendarView.setEnabled(false);
                    saveclient(cliente);
-                   clientname.setVisibility(View.GONE);
-                   emailfield.setVisibility(View.GONE);
-                   phonefield.setVisibility(View.GONE);
-                   datatext.setVisibility(View.GONE);
-                   calendarView.setVisibility(View.GONE);
-                   title.setText("Cliente Adicionado com sucesso!");
-               }else{
+                   CountDownTimer timer = new CountDownTimer(2000,100) {
+                       @Override
+                       public void onTick(long millisUntilFinished) {
+
+                       }
+
+                       @Override
+                       public void onFinish() {
+                           clientname.setEnabled(true);
+                           emailfield.setEnabled(true);
+                           phonefield.setEnabled(true);
+                           datatext.setEnabled(true);
+                           calendarView.setEnabled(true);
+                       }
+                   }.start();
+
+                }else{
                    AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
                    builder.setMessage("Não é possível fazer isso se estiver desconectado");
                    builder.setPositiveButton("Realizar login", new DialogInterface.OnClickListener() {
@@ -127,32 +143,12 @@ public class Alerts {
     }
 
 
-     protected void saveclient(Cliente cliente){
+     private void saveclient(Cliente cliente){
         final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.show();
         progressDialog.setMessage("Adicionando cliente");
-        DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.patients);
-        clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    progressDialog.setMessage("Cliente adicionado com sucesso!");
-                }else{
-                    progressDialog.setMessage("Erro ao salvar " + task.getException().getMessage());
-                }
-
-                CountDownTimer timer = new CountDownTimer(3500,100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progressDialog.dismiss();
-                    }
-                }.start();
-            }
-        });
+         Clientsdb clientsdb = new Clientsdb();
+         clientsdb.saveclient(cliente,progressDialog);
 
     }
 

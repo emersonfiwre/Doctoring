@@ -25,9 +25,19 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private ArrayList<Compromisso> compromissos;
     private Activity activity;
+
+    public ViewPagerAdapter(ArrayList<Compromisso> compromissos, Activity activity) {
+        this.compromissos = compromissos;
+        this.activity = activity;
+    }
+
     @Override
     public int getCount() {
-        return compromissos.size();
+        if (compromissos != null) {
+            return compromissos.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
