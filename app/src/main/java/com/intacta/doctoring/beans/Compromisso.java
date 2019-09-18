@@ -2,18 +2,20 @@ package com.intacta.doctoring.beans;
 
 public class Compromisso {
     private String id;
-    private String cliente;
-    private String compromisso;
     private String data;
     private String time;
+    private String compromisso;
+    private String cliente;
 
-    public Compromisso(String id, String data, String time, String cliente, String compromisso) {
-        this.id = id;
+    public Compromisso( String data, String time, String compromisso, String cliente ) {
         this.data = data;
         this.time = time;
-        this.cliente = cliente;
         this.compromisso = compromisso;
+        this.cliente = cliente;
+
     }
+
+    public Compromisso(){}
 
 
     public String getData() {

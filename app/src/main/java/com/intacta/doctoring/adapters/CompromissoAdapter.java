@@ -15,13 +15,13 @@ import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 
 import java.util.List;
 
-public class DatasAdapter extends RecyclerView.Adapter<DatasAdapter.MyViewHolder>{
+public class CompromissoAdapter extends RecyclerView.Adapter<CompromissoAdapter.MyViewHolder>{
     private List<Compromisso> mListCompromissos;
     private LayoutInflater layoutInflater;
     private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
 
 
-    public DatasAdapter(Context context, List<Compromisso> compromissos){
+    public CompromissoAdapter(Context context, List<Compromisso> compromissos){
         this.mListCompromissos = compromissos;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -30,7 +30,7 @@ public class DatasAdapter extends RecyclerView.Adapter<DatasAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.i("LOG","onCreateViewHolder()");
-        View v = layoutInflater.inflate(R.layout.card_datas,parent,false);
+        View v = layoutInflater.inflate(R.layout.card_compromisso,parent,false);
         MyViewHolder myViewHolder = new MyViewHolder(v);
         return myViewHolder;
     }
@@ -77,11 +77,13 @@ public class DatasAdapter extends RecyclerView.Adapter<DatasAdapter.MyViewHolder
             txtCliente = itemView.findViewById(R.id.txt_cliente);
             txtServico = itemView.findViewById(R.id.txt_service);
             txtTime = itemView.findViewById(R.id.txt_time);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if( mRecyclerViewOnClickListenerHack == null ) {
+            if( mRecyclerViewOnClickListenerHack != null ) {
                 mRecyclerViewOnClickListenerHack.onClickListener(v,getAdapterPosition());
             }
         }

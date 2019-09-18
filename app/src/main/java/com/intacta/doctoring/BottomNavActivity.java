@@ -62,6 +62,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                 .commit();
 
         floatbutton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 Alerts alerts = new Alerts(activity);
@@ -84,6 +85,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                 floatbutton.show();
                  floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
                 floatbutton.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
                         Alerts alerts = new Alerts(activity);

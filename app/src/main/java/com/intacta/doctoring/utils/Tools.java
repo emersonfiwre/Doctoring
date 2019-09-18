@@ -14,7 +14,7 @@ import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
 public class Tools {
-    public static String compromisses = "Compromisso";
+    public static String compromises = "Compromissos";
     public static String patients = "Pacientes";
     public static String notifications = "Notifications";
 

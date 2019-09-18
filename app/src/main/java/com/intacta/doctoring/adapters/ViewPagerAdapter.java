@@ -55,7 +55,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private void GetList(Compromisso compromisso,RecyclerView recyclerView){
 
 
-        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference(Tools.compromisses)
+        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference(Tools.compromises)
                 .child(compromisso.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
