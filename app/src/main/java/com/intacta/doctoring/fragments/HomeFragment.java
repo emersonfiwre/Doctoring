@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
     private void Carregar(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Query compromisses = FirebaseDatabase.getInstance()
-                .getReference(Tools.compromisses).orderByChild("doctor").equalTo(user.getUid());
+                .getReference(Tools.compromises).orderByChild("doctor").equalTo(user.getUid());
         compromisses.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
