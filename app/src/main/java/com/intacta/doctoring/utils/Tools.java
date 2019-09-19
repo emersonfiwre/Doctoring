@@ -9,12 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static java.util.Calendar.DATE;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
+
 
 public class Tools {
-    public static String compromises = "Compromissos";
+    public static String agenda = "Agenda";
     public static String patients = "Pacientes";
     public static String notifications = "Notifications";
 
@@ -27,6 +25,12 @@ public class Tools {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String formatday(Date date){
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("ddMMyyyy");
+        return df.format(date);
+
     }
 
 

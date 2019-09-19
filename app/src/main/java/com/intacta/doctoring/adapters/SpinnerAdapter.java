@@ -1,7 +1,6 @@
 package com.intacta.doctoring.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,7 @@ public class SpinnerAdapter  extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         convertView =  layoutInflater.inflate(R.layout.spinner_layout,null);
-        TextView label = convertView.findViewById(R.id.txt_cliente);
+        TextView label = convertView.findViewById(R.id.txt_day);
 
         label.setText(clienteList.get(position).getNome());
 

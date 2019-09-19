@@ -2,7 +2,6 @@ package com.intacta.doctoring.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -12,18 +11,14 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,10 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
-import com.google.firebase.database.core.utilities.Utilities;
 import com.intacta.doctoring.R;
-import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.adapters.SpinnerAdapter;
+import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
 
@@ -75,7 +69,6 @@ public class Alerts {
     public void ClientAlert() {
         Dialog dialog = new Dialog(activity, R.style.AppTheme);
         dialog.setContentView(R.layout.client_dialog);
-
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
         final TextInputLayout phonefield = dialog.findViewById(R.id.phonefield);
@@ -114,14 +107,17 @@ public class Alerts {
                     cliente.setTelefone(phonefield.getEditText().getText().toString());
                     cliente.setEmail(emailfield.getEditText().getText().toString());
                     cliente.setDoctor(user.getUid());
+
                     saveclient(cliente);
-                    clientname.setVisibility(View.GONE);
-                    emailfield.setVisibility(View.GONE);
-                    phonefield.setVisibility(View.GONE);
-                    datatext.setVisibility(View.GONE);
-                    calendarView.setVisibility(View.GONE);
-                    title.setText("Cliente Adicionado com sucesso!");
-                } else {
+
+                            clientname.setVisibility(View.GONE);
+                            emailfield.setVisibility(View.GONE);
+                            phonefield.setVisibility(View.GONE);
+                            datatext.setVisibility(View.GONE);
+                            calendarView.setVisibility(View.GONE);
+                        title.setText("Cliente Adicionado com sucesso!");
+
+                }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
                     builder.setMessage("Não é possível fazer isso se estiver desconectado");
                     builder.setPositiveButton("Realizar login", new DialogInterface.OnClickListener() {
@@ -133,10 +129,10 @@ public class Alerts {
                                     .setLogo(R.mipmap.ic_launcher)
                                     .setAvailableProviders(providers)
                                     .setTheme(R.style.AppTheme)
-                                    .build(), RC_SIGN_IN);
+                                    .build(),RC_SIGN_IN);
                         }
                     });
-                    builder.setNegativeButton("Cancelar", null);
+                    builder.setNegativeButton("Cancelar",null);
                     builder.show();
                 }
             }
@@ -151,7 +147,7 @@ public class Alerts {
         DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.patients);
         clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+        public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     progressDialog.setMessage("Cliente adicionado com sucesso!");
                 } else {
@@ -188,23 +184,22 @@ public class Alerts {
         startFirebase();
         final List<Cliente> clienteList = new ArrayList<>();
         carregarCliente(client,clienteList);
-
+        final Calendar calendar = Calendar.getInstance();
 
         db.setPositiveButton("Proximo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 service.getEditText().getText().toString();
                 int day = datePicker.getDayOfMonth();
-                int month = datePicker.getMonth() + 1;
+                int month = datePicker.getMonth();
                 int year = datePicker.getYear();
-
-                String data = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+                calendar.set(year,month,day);
+                //String data = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
                 Compromisso compromisso = new Compromisso(
-                        data,
                         null,
                         service.getEditText().getText().toString(),
                         clienteList.get(client.getSelectedItemPosition()).getId()
                 );
-                timePicker(compromisso);
+                timePicker(compromisso,calendar);
 
             }
         });
@@ -255,27 +250,41 @@ public class Alerts {
         });
     }
 
-    private void timePicker(final Compromisso compromisso){
-        Calendar calendar = Calendar.getInstance();
+    private void timePicker(final Compromisso compromisso, final Calendar calendar){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final Agenda agenda = new Agenda(user.getUid(),Tools.formattomyday(calendar.getTime()));
+
+
+        final Calendar calendartime = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
-        final String[] time = new String[1];
+        //final String[] time = new String[1];
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                 Log.i("LOG", hourOfDay + ":" + minutes);
-                compromisso.setTime(hourOfDay + ":" + minutes);
 
-                databaseReference.child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                calendartime.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                calendartime.set(Calendar.MINUTE,minutes);
+                compromisso.setTime(String.valueOf(calendartime.get(Calendar.HOUR_OF_DAY)));
+
+
+
+                databaseReference.child(Tools.agenda).child(agenda.getData()).setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-                        dialog.setTitle("Concluido!");
-                        dialog.setMessage("Compromisso salvo com sucesso!");
-                        dialog.setPositiveButton("Ok",null);
-                        dialog.create();
-                        dialog.show();
+                       databaseReference.child(Tools.agenda).child(Tools.formatday(calendar.getTime())).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                                dialog.setTitle("Concluido!");
+                                dialog.setMessage("Compromisso salvo com sucesso!");
+                                dialog.setPositiveButton("Ok",null);
+                                dialog.create();
+                                dialog.show();
+                            }
+                        });
                     }
                 });
 

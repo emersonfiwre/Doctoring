@@ -1,7 +1,6 @@
 package com.intacta.doctoring.fragments;
 
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     private Toolbar toolbar;
     private TabLayout tabs;
     private ViewPager compromissespager;
+    private RecyclerView compromisserecycler;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -57,41 +58,48 @@ public class HomeFragment extends Fragment {
     private void initView(View v) {
         appbar = v.findViewById(R.id.appbar);
         toolbar = v.findViewById(R.id.toolbar);
-        tabs = v.findViewById(R.id.tabs);
-        compromissespager = v.findViewById(R.id.compromissespager);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         toolbar.setTitle("Olá " + user.getDisplayName());
         toolbar.setSubtitle("Nenhuma consulta para hoje");
         Carregar();
 
 
-
+        compromisserecycler = v.findViewById(R.id.compromisserecycler);
     }
 
 
-    private void Carregar(){
+    private void Carregar() {
+        final ArrayList<Compromisso> compromissos = new ArrayList<>();
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Query compromisses = FirebaseDatabase.getInstance()
-                .getReference(Tools.compromises).orderByChild("doctor").equalTo(user.getUid());
-        compromisses.addListenerForSingleValueEvent(new ValueEventListener() {
+                .getReference(Tools.agenda).equalTo(user.getUid());
+        compromisses.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    ArrayList<Compromisso> compromissos = new ArrayList<>();
+                if (dataSnapshot.exists()) {
 
-                    for (DataSnapshot d:dataSnapshot.getChildren()) {
-                         Compromisso c = d.getValue(Compromisso.class);
-                         c.setId(dataSnapshot.getKey());
-                         compromissos.add(c);
-                        Log.v("Compromisses", String.format("there are %d compromissos", compromissos.size()));
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        Compromisso c = d.getValue(Compromisso.class);
+                        c.setId(dataSnapshot.getKey());
+                        compromissos.add(c);
+
                     }
+                    Log.v("Compromisses", String.format("there are %d compromissos", compromissos.size()));
 
-                    ViewPagerAdapter adapter = new ViewPagerAdapter(compromissos,getActivity());
-                    tabs.setupWithViewPager(compromissespager);
+                    ViewPagerAdapter adapter = new ViewPagerAdapter(compromissos, getActivity());
+                    Log.v("Pages", String.format("there are %d pages", adapter.getCount()));
 
+
+                    Log.v("Tabs", String.format("there are %d tabs", tabs.getTabCount()));
+
+
+                } else {
+                    Log.v("Compromisses", "No compromisses found");
 
                 }
+
             }
 
             @Override
@@ -99,5 +107,11 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+    }
+
+    private void addTab(String title) {
+        tabs.addTab(tabs.newTab().setText(title));
+
     }
 }

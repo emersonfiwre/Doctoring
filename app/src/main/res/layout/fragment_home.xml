@@ -20,28 +20,12 @@
             android:layout_width="match_parent"
             app:layout_scrollFlags="scroll|enterAlways">
          </androidx.appcompat.widget.Toolbar>
-
-        <com.google.android.material.tabs.TabLayout
-            app:tabBackground="@drawable/select_card"
-            android:layout_margin="1dp"
-            app:tabMaxWidth="50dp"
-            app:tabTextAppearance="@style/ToolbarTitle"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/md_grey_400"
-             android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/transparent"
-             app:tabIndicatorAnimationDuration="500"
-            app:tabMode="scrollable">
-        </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.recyclerview.widget.RecyclerView
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/compromissespager"
+        android:id="@+id/compromisserecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

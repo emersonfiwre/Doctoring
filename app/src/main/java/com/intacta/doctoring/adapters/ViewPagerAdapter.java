@@ -2,6 +2,7 @@ package com.intacta.doctoring.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         GetList(compromissos.get(position),recyclerView);
 
         container.addView(view);
+        Log.v("Creating compromisse","compromisse created " + compromissos.get(position).getCompromisso());
         return view;
     }
 
@@ -65,7 +67,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private void GetList(Compromisso compromisso,RecyclerView recyclerView){
 
 
-        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference(Tools.compromises)
+        ValueEventListener listreference = FirebaseDatabase.getInstance().getReference(Tools.agenda)
                 .child(compromisso.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
