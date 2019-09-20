@@ -36,7 +36,6 @@ import com.intacta.doctoring.fragments.HomeFragment;
 import java.util.Collections;
 import java.util.List;
 
-import cat.ereza.customactivityoncrash.config.CaocConfig;
 
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
@@ -91,11 +90,11 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
+                floatbutton.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp));
                 floatbutton.show();
 
                 if (floatbutton.isOrWillBeShown()) {
-                    floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_black_24dp));
-
+                    floatbutton.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp));
                 }
                 floatbutton.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -113,10 +112,14 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
 
                 return true;
             case R.id.navigation_dashboard:
-                floatbutton.setImageDrawable(getResources().getDrawable(R.drawable.ic_person_add_black_24dp));
-                if (floatbutton.isOrWillBeHidden()) {
-                    floatbutton.show();
-                }                floatbutton.setOnClickListener(new View.OnClickListener() {
+
+                floatbutton.show();
+                floatbutton.setImageDrawable(getDrawable(R.drawable.ic_person_add_black_24dp));
+                if (floatbutton.isOrWillBeShown()) {
+                    floatbutton.setImageDrawable(getDrawable(R.drawable.ic_person_add_black_24dp));
+               }
+
+                floatbutton.setOnClickListener(new View.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
@@ -130,6 +133,7 @@ public class BottomNavActivity extends AppCompatActivity implements BottomNaviga
                         .replace(R.id.frame, new ClientFragment())
                         .commit();
                 return true;
+
             case R.id.navigation_notifications:
                 floatbutton.hide();
                 getSupportFragmentManager()
