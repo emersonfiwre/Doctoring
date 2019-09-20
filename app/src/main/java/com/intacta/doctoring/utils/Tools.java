@@ -13,6 +13,7 @@ import java.util.Locale;
 
 public class Tools {
     public static String agenda = "Agenda";
+    public static String compromises = "Compromissos";
     public static String patients = "Pacientes";
     public static String notifications = "Notifications";
 
@@ -22,6 +23,14 @@ public class Tools {
     public static Date parseDate(String date) {
         try {
             return new SimpleDateFormat("dd/mm/yyy").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public static Date parseIdDate(String date) {
+        try {
+            return new SimpleDateFormat("ddmmyyy").parse(date);
         } catch (ParseException e) {
             return null;
         }

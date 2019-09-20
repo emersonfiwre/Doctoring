@@ -1,7 +1,6 @@
 package com.intacta.doctoring.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,7 @@ import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Compromisso;
 import com.intacta.doctoring.utils.Tools;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,32 +36,38 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.i("LOG","onCreateViewHolder()");
-        LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        View v = layoutInflater.inflate(R.layout.card_compromisso,parent,false);
+         LayoutInflater layoutInflater = LayoutInflater.from(activity);
+        View v = layoutInflater.inflate(R.layout.agenda_layout,parent,false);
          return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final ArrayList<Compromisso> compromissos = new ArrayList<>();
-        Log.i("LOG","onBindViewHolder()");
-        Agenda a = mListCompromissos.get(position);
-        holder.txtday.setText(mListCompromissos.get(position).getData());
-        DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(a.getId());
+        Agenda a = mListCompromissos.get(holder.getAdapterPosition());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
+        holder.txtday.setText(sdf.format( Tools.parseIdDate(a.getId())));
+
+        DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(a.getId()).child(Tools.compromises);
         compromissoreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
+                 if (dataSnapshot.exists()){
                     for (DataSnapshot d: dataSnapshot.getChildren()) {
                         Compromisso c = d.getValue(Compromisso.class);
+                        c.setId(d.getKey());
                         compromissos.add(c);
+                        Log.println(Log.INFO,"Compromisso",c.getCliente() + c.getCompromisso());
                     }
 
+                    Log.println(    Log.INFO,"Compromissos","Compromissos loaded " + compromissos.size());
+                    GridLayoutManager llm = new GridLayoutManager(activity,1,RecyclerView.VERTICAL,false);
                     CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos);
                     holder.compromissosrecycler.setAdapter(compromisesAdapter);
-                    GridLayoutManager llm = new GridLayoutManager(activity,1,RecyclerView.VERTICAL,false);
                     holder.compromissosrecycler.setLayoutManager(llm);
+                }else{
+                    Log.println(    Log.INFO,"Compromissos","No compromisses here " + compromissos.size());
+
                 }
             }
 
@@ -90,7 +96,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
             super(itemView);
 
             txtday = itemView.findViewById(R.id.txt_day);
-            compromissosrecycler = itemView.findViewById(R.id.compromisserecycler);
+            compromissosrecycler = itemView.findViewById(R.id.schedulesrecycler);
          }
 
 

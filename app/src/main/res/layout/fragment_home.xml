@@ -13,9 +13,7 @@
         android:layout_width="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            app:title="Olá Caio,"
-            app:subtitle="10 compromissos para hoje"
-            android:id="@+id/toolbar"
+              android:id="@+id/toolbar"
              android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:layout_scrollFlags="scroll|enterAlways">

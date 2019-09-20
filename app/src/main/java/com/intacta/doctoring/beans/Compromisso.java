@@ -2,15 +2,15 @@ package com.intacta.doctoring.beans;
 
 public class Compromisso {
     public Compromisso( String time, String compromisso, String cliente) {
-          this.time = time;
+        this.time = time;
         this.compromisso = compromisso;
         this.cliente = cliente;
     }
 
 
 
-     private String id;
-     private String time;
+    private String id;
+    private String time;
     private String compromisso;
     private String cliente;
 

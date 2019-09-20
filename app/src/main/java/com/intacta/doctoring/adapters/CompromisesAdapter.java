@@ -9,9 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.utils.Tools;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +53,22 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
         Compromisso compromisso = compromissos.get(holder.getAdapterPosition());
         holder.compromisse.setText(compromisso.getCompromisso());
         holder.time.setText(compromisso.getTime());
-        holder.client.setText(compromisso.getTime());
+        holder.client.setText(compromisso.getCliente());
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.patients).child(compromisso.getCliente());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

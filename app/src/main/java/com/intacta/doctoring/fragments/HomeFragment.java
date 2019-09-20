@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,7 +25,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.adapters.AgendaAdapter;
 import com.intacta.doctoring.adapters.ViewPagerAdapter;
+import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Compromisso;
 import com.intacta.doctoring.utils.Tools;
 
@@ -61,8 +64,7 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         toolbar.setTitle("Olá " + user.getDisplayName());
-        toolbar.setSubtitle("Nenhuma consulta para hoje");
-        Carregar();
+         Carregar();
 
 
         compromisserecycler = v.findViewById(R.id.compromisserecycler);
@@ -70,33 +72,29 @@ public class HomeFragment extends Fragment {
 
 
     private void Carregar() {
-        final ArrayList<Compromisso> compromissos = new ArrayList<>();
-
+        final ArrayList<Agenda> compromissos = new ArrayList<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Query compromisses = FirebaseDatabase.getInstance()
-                .getReference(Tools.agenda).equalTo(user.getUid());
+                .getReference(Tools.agenda).orderByChild("doutor").equalTo(user.getUid());
         compromisses.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
 
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
-                        Compromisso c = d.getValue(Compromisso.class);
-                        c.setId(dataSnapshot.getKey());
-                        compromissos.add(c);
+                        Agenda a = d.getValue(Agenda.class);
+                        a.setId(d.getKey());
+                        compromissos.add(a);
 
                     }
-                    Log.v("Compromisses", String.format("there are %d compromissos", compromissos.size()));
-
-                    ViewPagerAdapter adapter = new ViewPagerAdapter(compromissos, getActivity());
-                    Log.v("Pages", String.format("there are %d pages", adapter.getCount()));
-
-
-                    Log.v("Tabs", String.format("there are %d tabs", tabs.getTabCount()));
-
-
+                    Log.println(Log.INFO,"Agenda", String.format("there are %d agendas", compromissos.size()));
+                    AgendaAdapter agendaAdapter = new AgendaAdapter(getActivity(),compromissos);
+                    compromisserecycler.setAdapter(agendaAdapter);
+                    GridLayoutManager llm = new GridLayoutManager(getActivity(),1,RecyclerView.VERTICAL,false);
+                    compromisserecycler.setAdapter(agendaAdapter);
+                    compromisserecycler.setLayoutManager(llm);
                 } else {
-                    Log.v("Compromisses", "No compromisses found");
+                    Log.println(Log.INFO,"Agenda","NO AGENDAS FOUND ");
 
                 }
 

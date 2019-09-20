@@ -45,7 +45,7 @@ public class FireDatabase {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 DatabaseReference schedulereference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(Tools.formatday(calendar.getTime()));
-                schedulereference.push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                schedulereference.child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
