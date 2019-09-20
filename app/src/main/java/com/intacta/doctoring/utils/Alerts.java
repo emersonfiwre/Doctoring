@@ -271,10 +271,11 @@ public class Alerts {
 
 
 
-                databaseReference.child(Tools.agenda).child(agenda.getData()).setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseReference.child(Tools.agenda).child(Tools.formatday(calendar.getTime())).setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                       databaseReference.child(Tools.agenda).child(Tools.formatday(calendar.getTime())).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                      DatabaseReference schedulereference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(Tools.formatday(calendar.getTime()));
+                      schedulereference.push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
