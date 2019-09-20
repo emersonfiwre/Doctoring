@@ -79,8 +79,9 @@ public class HomeFragment extends Fragment {
         compromisses.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                compromissos.clear();
+                compromisserecycler.removeAllViews();
                 if (dataSnapshot.exists()) {
-
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
                         Agenda a = d.getValue(Agenda.class);
                         a.setId(d.getKey());

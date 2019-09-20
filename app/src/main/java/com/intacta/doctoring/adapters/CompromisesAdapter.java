@@ -18,6 +18,7 @@ import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.utils.Tools;
 
 import java.text.ParseException;
@@ -49,7 +50,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Compromisso compromisso = compromissos.get(holder.getAdapterPosition());
         holder.compromisse.setText(compromisso.getCompromisso());
         holder.time.setText(compromisso.getTime());
@@ -61,6 +62,9 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
+                    DataSnapshot d = dataSnapshot;
+                    Cliente c = d.getValue(Cliente.class);
+                    holder.client.setText(c.getNome());
                  }
             }
 

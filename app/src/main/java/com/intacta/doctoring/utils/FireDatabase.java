@@ -40,12 +40,12 @@ public class FireDatabase {
         databaseReference = firebaseDatabase.getReference();
     }
     public void sendCompromisso(final Compromisso compromisso, Agenda agenda, final Calendar calendar){
-
-        databaseReference.child(Tools.agenda).child(Tools.formatday(calendar.getTime())).setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
+        final DatabaseReference agendaref = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(Tools.formatday(calendar.getTime()));
+        agendaref.setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                DatabaseReference schedulereference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(Tools.formatday(calendar.getTime()));
-                schedulereference.child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                DatabaseReference compromissoref = FirebaseDatabase.getInstance().getReference(Tools.agenda);
+                compromissoref.child(Tools.formatday(calendar.getTime())).child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
