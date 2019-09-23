@@ -39,25 +39,53 @@ public class FireDatabase {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-    public void sendCompromisso(final Compromisso compromisso, Agenda agenda, final Calendar calendar){
+    public void sendCompromisso(final Compromisso compromisso, final Agenda agenda, final Calendar calendar){
         final DatabaseReference agendaref = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(Tools.formatday(calendar.getTime()));
-        agendaref.setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        agendaref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                DatabaseReference compromissoref = FirebaseDatabase.getInstance().getReference(Tools.agenda);
-                compromissoref.child(Tools.formatday(calendar.getTime())).child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                        dialog.setTitle("Concluido!");
-                        dialog.setMessage("Compromisso salvo com sucesso!");
-                        dialog.setPositiveButton("Ok",null);
-                        dialog.create();
-                        dialog.show();
-                    }
-                });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()){
+                    agendaref.setValue(agenda).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            DatabaseReference compromissoref = FirebaseDatabase.getInstance().getReference(Tools.agenda);
+                            compromissoref.child(Tools.formatday(calendar.getTime())).child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                                    dialog.setTitle("Concluido!");
+                                    dialog.setMessage("Compromisso salvo com sucesso!");
+                                    dialog.setPositiveButton("Ok",null);
+                                    dialog.create();
+                                    dialog.show();
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    DatabaseReference compromissoref = FirebaseDatabase.getInstance().getReference(Tools.agenda);
+                    compromissoref.child(Tools.formatday(calendar.getTime())).child(Tools.compromises).push().setValue(compromisso).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                            dialog.setTitle("Concluido!");
+                            dialog.setMessage("Compromisso salvo com sucesso!");
+                            dialog.setPositiveButton("Ok",null);
+                            dialog.create();
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
     }
     public void loadCliente(final Spinner spinner, final List<Cliente> clientes ){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

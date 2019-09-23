@@ -1,6 +1,7 @@
 package com.intacta.doctoring.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +53,9 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Compromisso compromisso = compromissos.get(holder.getAdapterPosition());
+        Log.println(Log.INFO,"Compromisso","Compromisso é " + compromisso.getCompromisso());
         holder.compromisse.setText(compromisso.getCompromisso());
         holder.time.setText(compromisso.getTime());
-        holder.client.setText(compromisso.getCliente());
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.patients).child(compromisso.getCliente());
 
