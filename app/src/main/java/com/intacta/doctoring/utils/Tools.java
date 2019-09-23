@@ -22,19 +22,23 @@ public class Tools {
 
     public static Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd/mm/yyy").parse(date);
+            return new SimpleDateFormat("dd/MM/yyy").parse(date);
         } catch (ParseException e) {
             return null;
         }
     }
 
-    public static Date parseIdDate(String date) {
-        try {
-            return new SimpleDateFormat("ddmmyyy").parse(date);
-        } catch (ParseException e) {
-            return null;
-        }
+
+    public static Date paseTime(String time){
+        String myTime = "10:30";
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        Date date = null;
+
+        return date;
     }
+
+
+
 
     public static String formatday(Date date){
         @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("ddMMyyyy");

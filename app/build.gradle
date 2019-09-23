@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-appindexing:19.0.0'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
+    implementation 'com.github.leondzn:simple-analog-clock:1.0.1'
 
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'

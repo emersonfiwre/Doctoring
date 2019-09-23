@@ -21,6 +21,7 @@ import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
 import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.utils.Tools;
+import com.leondzn.simpleanalogclock.SimpleAnalogClock;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,9 +87,10 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
 
         private TextView compromisse,time,client;
+        private SimpleAnalogClock clock;
         MyViewHolder(View view) {
             super(view);
-
+            clock = view.findViewById(R.id.clock);
             compromisse = view.findViewById(R.id.compromisse);
             time = view.findViewById(R.id.time);
             client = view.findViewById(R.id.client);

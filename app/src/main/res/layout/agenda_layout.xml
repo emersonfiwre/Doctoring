@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    app:cardElevation="3dp"
-    app:cardCornerRadius="10dp"
+    android:background="@color/transparent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:padding="5dp">
 
     <TextView
-        android:textSize="18sp"
-         android:padding="10dp"
-        android:textColor="@color/md_grey_600"
+
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:padding="10dp"
+
+        android:textColor="@color/colorPrimary"
         android:id="@+id/txt_day"
          android:text="Seg, Set 10"
         android:layout_width="match_parent"

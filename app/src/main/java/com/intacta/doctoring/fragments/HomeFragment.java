@@ -59,15 +59,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView(View v) {
-        appbar = v.findViewById(R.id.appbar);
-        toolbar = v.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        toolbar.setTitle("Olá " + user.getDisplayName());
-         Carregar();
-
-
         compromisserecycler = v.findViewById(R.id.compromisserecycler);
+        Carregar();
     }
 
 

@@ -45,8 +45,13 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final ArrayList<Compromisso> compromissos = new ArrayList<>();
         Agenda a = mListCompromissos.get(holder.getAdapterPosition());
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
-        holder.txtday.setText(sdf.format( Tools.parseIdDate(a.getId())));
+        Log.println(Log.INFO,"agenda","data marcada " +  a.getData());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d 'de' MMMM 'de' yyyy");
+        String dia = sdf.format(Tools.parseDate(a.getData()));
+        StringBuilder sb = new StringBuilder(dia);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        holder.txtday.setText(sb);
+
 
         DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(a.getId()).child(Tools.compromises);
         compromissoreference.addValueEventListener(new ValueEventListener() {

@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
      app:cardCornerRadius="15dp"
-    android:layout_marginBottom="3dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@color/white"
+    android:layout_margin="10dp"
+     app:cardBackgroundColor="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+    <CheckBox
+        android:id="@+id/done"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_margin="5dp"
+        android:layout_toEndOf="@id/done"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/compromisse"
             android:textStyle="bold"
             android:fontFamily="@font/comfortaamedium"
-            android:textColor="@color/black"
             android:text="Exame"
-            android:padding="5dp"
-            android:layout_width="match_parent"
+            android:padding="1dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/md_grey_700"
             android:id="@+id/client"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/ic_brightness_1_black_24dp"
-            android:padding="5dp"
+            android:padding="1dp"
             android:text="Cliente"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/time"
-            android:padding="5dp"
-            android:text="10:30"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
+
 
 
 
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
 
-</androidx.cardview.widget.CardView>
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+             android:id="@+id/time"
+            android:text="10:30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.leondzn.simpleanalogclock.SimpleAnalogClock
+            android:id="@+id/clock"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            app:hourTint="@color/colorPrimary"
+            app:secondTint="@color/colorAccent" />
+    </LinearLayout>
+</RelativeLayout>
