@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,7 @@ import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
 import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.database.Compromissedb;
+import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.utils.Tools;
 import com.leondzn.simpleanalogclock.SimpleAnalogClock;
 
@@ -105,6 +109,16 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
                 compromissedb.Done(compromisso,id);
             }
         });
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Alerts alerts = new Alerts(activity);
+                alerts.Delete(compromisso,id);
+            }
+        });
+        Animation in  = AnimationUtils.loadAnimation(activity,R.anim.fade_in);
+        holder.layout.startAnimation(in);
     }
 
     @Override
@@ -114,7 +128,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-
+        private RelativeLayout layout;
         private TextView compromisse,time,client;
         private CheckBox done;
         private SimpleAnalogClock clock;
@@ -125,6 +139,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             compromisse = view.findViewById(R.id.compromisse);
             time = view.findViewById(R.id.time);
             client = view.findViewById(R.id.client);
+            layout = view.findViewById(R.id.layout);
 
 
 

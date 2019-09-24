@@ -15,4 +15,8 @@ public class Compromissedb {
         reference.child(Tools.compromises).child(compromisso.getId()).setValue(compromisso);
     }
 
+    public void Delete(Compromisso compromisso ,String id){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(id);
+        reference.child(Tools.compromises).child(compromisso.getId()).removeValue();
+    }
 }

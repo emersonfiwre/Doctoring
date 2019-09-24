@@ -33,6 +33,7 @@ import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.database.Compromissedb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -223,6 +224,19 @@ public class Alerts {
         timePickerDialog.show();
 
     }
+
+    public void Delete(final Compromisso c, final String id){
+        String[] options = {"Remover compromisso"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Compromissedb cd = new Compromissedb();
+                    cd.Delete(c,id);
+                }
+            }).show();
+    }
+
 
 }
 
