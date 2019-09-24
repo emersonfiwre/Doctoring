@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,14 +18,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.beans.Cliente;
-import com.intacta.doctoring.database.Clientsdb;
+import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.utils.Tools;
 
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ public class ClientFragment extends Fragment {
 
     private Toolbar toolbar;
     private RecyclerView clients;
+    private TextView addpatient;
 
     public ClientFragment() {
         // Required empty public constructor
@@ -58,28 +59,36 @@ public class ClientFragment extends Fragment {
         clients = (RecyclerView) view.findViewById(R.id.clients);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-         Carregar();
+        Carregar();
 
+        addpatient = (TextView) view.findViewById(R.id.addpatient);
+        addpatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Alerts alerts = new Alerts(getActivity());
+                alerts.ClientAlert();
+            }
+        });
     }
 
 
-    private void Carregar(){
+    private void Carregar() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Cliente> clientes = new ArrayList<>();
         clients.removeAllViews();
         Query databasereference = FirebaseDatabase.getInstance().getReference().child(Tools.patients).orderByChild("doctor")
-                .startAt(user.getUid()).endAt(user.getUid() +"\uf8ff");
+                .startAt(user.getUid()).endAt(user.getUid() + "\uf8ff");
         databasereference.keepSynced(true);
 
         databasereference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clientes.clear();
-                if (!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     Cliente c = new Cliente();
                     c.setId("No clients");
                     clientes.add(c);
-                }else{
+                } else {
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
                         Cliente ci = d.getValue(Cliente.class);
                         ci.setId(d.getKey());
@@ -87,9 +96,9 @@ public class ClientFragment extends Fragment {
                         clientes.add(ci);
                     }
                 }
-                System.out.println("There are " +clientes.size());
-                ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(),clientes);
-                GridLayoutManager llm = new GridLayoutManager(getActivity(),1,RecyclerView.VERTICAL,false);
+                System.out.println("There are " + clientes.size());
+                ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientes);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, RecyclerView.VERTICAL, false);
                 clients.setAdapter(clientsAdapter);
                 clients.setLayoutManager(llm);
             }
