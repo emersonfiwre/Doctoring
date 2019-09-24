@@ -64,10 +64,13 @@
             android:layout_height="wrap_content" />
         <com.leondzn.simpleanalogclock.SimpleAnalogClock
             android:id="@+id/clock"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
-            app:hourTint="@color/colorPrimary"
-            app:secondTint="@color/colorAccent" />
+            app:faceTint="@color/colorPrimary"
+            app:hourTint="@color/colorAccent"
+
+            app:minuteTint="@color/colorPrimaryDark"
+            app:secondTint="@color/colorPrimaryDark" />
     </LinearLayout>
 </RelativeLayout>

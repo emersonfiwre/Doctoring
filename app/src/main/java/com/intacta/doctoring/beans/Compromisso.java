@@ -8,7 +8,15 @@ public class Compromisso {
     }
 
 
+    public boolean isDone() {
+        return done;
+    }
 
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    private boolean done = false;
     private String id;
     private String time;
     private String compromisso;

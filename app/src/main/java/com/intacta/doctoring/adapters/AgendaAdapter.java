@@ -44,7 +44,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final ArrayList<Compromisso> compromissos = new ArrayList<>();
-        Agenda a = mListCompromissos.get(holder.getAdapterPosition());
+        final Agenda a = mListCompromissos.get(holder.getAdapterPosition());
         Log.println(Log.INFO,"agenda","data marcada " +  a.getData());
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d 'de' MMMM 'de' yyyy");
         String dia = sdf.format(Tools.parseDate(a.getData()));
@@ -58,6 +58,8 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  if (dataSnapshot.exists()){
+                     compromissos.clear();
+                     holder.compromissosrecycler.removeAllViews();
                     for (DataSnapshot d: dataSnapshot.getChildren()) {
                         Compromisso c = d.getValue(Compromisso.class);
                         c.setId(d.getKey());
@@ -67,7 +69,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
 
                     Log.println(    Log.INFO,"Compromissos","Compromissos loaded " + compromissos.size());
                     GridLayoutManager llm = new GridLayoutManager(activity,1,RecyclerView.VERTICAL,false);
-                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos);
+                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos,a.getId());
                     holder.compromissosrecycler.setAdapter(compromisesAdapter);
                     holder.compromissosrecycler.setLayoutManager(llm);
                 }else{

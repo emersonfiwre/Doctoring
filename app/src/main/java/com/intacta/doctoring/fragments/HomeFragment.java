@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Query compromisses = FirebaseDatabase.getInstance()
                 .getReference(Tools.agenda).orderByChild("doutor").equalTo(user.getUid());
-        compromisses.addValueEventListener(new ValueEventListener() {
+        compromisses.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 compromissos.clear();

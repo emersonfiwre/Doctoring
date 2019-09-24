@@ -29,12 +29,14 @@ public class Tools {
     }
 
 
-    public static Date paseTime(String time){
-        String myTime = "10:30";
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-        Date date = null;
+    public static Date parseTime(String time){
+        try {
+            return  new SimpleDateFormat("hh:mm").parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-        return date;
     }
 
 

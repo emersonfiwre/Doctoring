@@ -1,10 +1,13 @@
 package com.intacta.doctoring.adapters;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
 import com.intacta.doctoring.database.Clientsdb;
+import com.intacta.doctoring.database.Compromissedb;
 import com.intacta.doctoring.utils.Tools;
 import com.leondzn.simpleanalogclock.SimpleAnalogClock;
 
@@ -34,10 +38,12 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
     private Activity activity;
     private ArrayList<Compromisso> compromissos;
+    String id;
 
-    public CompromisesAdapter(Activity activity, ArrayList<Compromisso> compromissos) {
+    public CompromisesAdapter(Activity activity, ArrayList<Compromisso> compromissos,String id) {
         this.activity = activity;
         this.compromissos = compromissos;
+        this.id = id;
     }
 
     @NonNull
@@ -53,11 +59,26 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        Compromisso compromisso = compromissos.get(holder.getAdapterPosition());
+        final Compromisso compromisso = compromissos.get(holder.getAdapterPosition());
         Log.println(Log.INFO,"Compromisso","Compromisso é " + compromisso.getCompromisso());
         holder.compromisse.setText(compromisso.getCompromisso());
         holder.time.setText(compromisso.getTime());
-
+        Date time = Tools.parseTime(compromisso.getTime());
+        Calendar rtime = Calendar.getInstance();
+        rtime.setTime(time);
+        StringBuilder times = new StringBuilder();
+        times.append(rtime.get(Calendar.HOUR_OF_DAY)).append(":");
+        if (rtime.get(Calendar.MINUTE) == 0){
+            times.append("00");
+        }else{
+            times.append(rtime.get(Calendar.MINUTE));
+        }
+        holder.time.setText(times);
+         holder.clock.setTime(rtime.get(Calendar.HOUR_OF_DAY),rtime.get(Calendar.MINUTE),0);
+        if (compromisso.isDone()){
+            holder.compromisse.setPaintFlags(holder.compromisse.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.done.setChecked(true);
+        }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.patients).child(compromisso.getCliente());
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -76,6 +97,14 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             }
         });
 
+        holder.done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                compromisso.setDone(isChecked);
+                Compromissedb compromissedb = new Compromissedb();
+                compromissedb.Done(compromisso,id);
+            }
+        });
     }
 
     @Override
@@ -87,9 +116,11 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
 
         private TextView compromisse,time,client;
+        private CheckBox done;
         private SimpleAnalogClock clock;
         MyViewHolder(View view) {
             super(view);
+            done = view.findViewById(R.id.done);
             clock = view.findViewById(R.id.clock);
             compromisse = view.findViewById(R.id.compromisse);
             time = view.findViewById(R.id.time);
