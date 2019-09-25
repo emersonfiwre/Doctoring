@@ -2,11 +2,10 @@ package com.intacta.doctoring.beans;
 
 public class Agenda {
     private String id;
-    private String data;
 
 
-    public Agenda(String doutor, String data) {
-         this.data = data;
+    public Agenda(String data) {
+         this.id = data;
     }
 
     public Agenda() {
@@ -18,13 +17,5 @@ public class Agenda {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 }

@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Compromisso;
-import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Tools;
 
 import java.text.SimpleDateFormat;
@@ -46,15 +47,15 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final ArrayList<Compromisso> compromissos = new ArrayList<>();
         final Agenda a = mListCompromissos.get(holder.getAdapterPosition());
-        Log.println(Log.INFO,"agenda","data marcada " +  a.getData());
+        Log.println(Log.INFO,"agenda","data marcada " +  a.getId());
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d 'de' MMMM 'de' yyyy");
-        String dia = sdf.format(Tools.parseDate(a.getData()));
+        String dia = sdf.format(Tools.parseDate(a.getId()));
         StringBuilder sb = new StringBuilder(dia);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         holder.txtday.setText(sb);
 
-
-        DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(a.getId()).child(Tools.compromises);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.agenda).child(a.getId()).child(Tools.compromises);
         compromissoreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -70,7 +71,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
 
                     Log.println(    Log.INFO,"Compromissos","Compromissos loaded " + compromissos.size());
                     GridLayoutManager llm = new GridLayoutManager(activity,1,RecyclerView.VERTICAL,false);
-                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos,a.getId());
+                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos);
                     holder.compromissosrecycler.setAdapter(compromisesAdapter);
                     holder.compromissosrecycler.setLayoutManager(llm);
                 }else{

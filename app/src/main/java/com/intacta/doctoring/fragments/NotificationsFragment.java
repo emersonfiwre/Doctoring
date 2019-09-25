@@ -80,7 +80,7 @@ public class NotificationsFragment extends Fragment {
                         Notification nt = d.getValue(Notification.class);
                         nt.setKey(d.getKey());
 
-                        //System.out.println(diary.getData() + diary.getFiscal() + diary.getLocal());
+                        //System.out.println(diary.getId() + diary.getFiscal() + diary.getLocal());
                         notifications.add(nt);
                     }
                 }

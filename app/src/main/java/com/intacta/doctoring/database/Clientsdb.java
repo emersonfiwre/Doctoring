@@ -3,13 +3,8 @@ package com.intacta.doctoring.database;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,12 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.adapters.SpinnerAdapter;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.utils.Tools;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Clientsdb {
@@ -64,9 +57,7 @@ public class Clientsdb {
     }
 
     public void loadCliente(final Spinner spinner, final List<Cliente> clientes ){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Query databaseReference = FirebaseDatabase.getInstance().getReference().child(Tools.patients).orderByChild("doctor")
-                .startAt(user.getUid()).endAt(user.getUid() +"\uf8ff");
+        Query databaseReference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
         databaseReference.keepSynced(true);
 
         databaseReference.addValueEventListener(new ValueEventListener() {

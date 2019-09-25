@@ -24,7 +24,7 @@ public class Tools {
 
     public static Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd/MM/yyy").parse(date);
+            return new SimpleDateFormat("ddMMyyy").parse(date);
         } catch (ParseException e) {
             return null;
         }

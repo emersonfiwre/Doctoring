@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
         final ArrayList<Agenda> compromissos = new ArrayList<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Query compromisses = FirebaseDatabase.getInstance()
-                .getReference(Tools.agenda).orderByChild("doutor").equalTo(user.getUid());
+                .getReference(Tools.user).child(user.getUid()).child(Tools.agenda);
         compromisses.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

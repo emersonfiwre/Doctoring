@@ -38,12 +38,10 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
 
     private Activity activity;
     private ArrayList<Compromisso> compromissos;
-    String id;
 
-    public CompromisesAdapter(Activity activity, ArrayList<Compromisso> compromissos,String id) {
+    public CompromisesAdapter(Activity activity, ArrayList<Compromisso> compromissos) {
         this.activity = activity;
         this.compromissos = compromissos;
-        this.id = id;
     }
 
     @NonNull
@@ -102,7 +100,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 compromisso.setDone(isChecked);
                 Compromissedb compromissedb = new Compromissedb(activity);
-                compromissedb.Done(compromisso,id);
+                compromissedb.Done(compromisso);
             }
         });
 
@@ -110,7 +108,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             @Override
             public void onClick(View v) {
                 Alerts alerts = new Alerts(activity);
-                alerts.Options(compromisso,id);
+                alerts.Options(compromisso);
             }
         });
         Animation in  = AnimationUtils.loadAnimation(activity,R.anim.fade_in);
