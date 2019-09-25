@@ -2,6 +2,7 @@ package com.intacta.doctoring.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -54,32 +55,57 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert() {
-        Dialog dialog = new Dialog(activity, R.style.AppTheme);
+        Dialog dialog = new Dialog(activity, R.style.Dialog_No_Border);
         dialog.setContentView(R.layout.client_dialog);
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
         final TextInputLayout phonefield = dialog.findViewById(R.id.phonefield);
         final TextInputLayout emailfield = dialog.findViewById(R.id.emailfield);
-        final TextView datatext = dialog.findViewById(R.id.datatext);
+        final TextInputLayout datefield = dialog.findViewById(R.id.datefield);
         final TextView title = dialog.findViewById(R.id.title);
 
-
-        final DatePicker calendarView = dialog.findViewById(R.id.calendar);
-
-
-        calendarView.setMaxDate(new Date().getTime());
-
-
-        calendarView.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+        datefield.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar myCalendar = Calendar.getInstance();
-                Date dia;
-                myCalendar.set(year, monthOfYear, dayOfMonth);
-                dia = myCalendar.getTime();
-                datatext.setText(Tools.formattomyday(dia));
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    DatePickerDialog pickerDialog = new DatePickerDialog(activity,R.style.Theme_AppCompat_Light);
+
+                    pickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            Calendar myCalendar = Calendar.getInstance();
+                            Date dia;
+                            myCalendar.set(year, month, dayOfMonth);
+                            dia = myCalendar.getTime();
+                            datefield.getEditText().setText(Tools.formattomyday(dia));
+                        }
+                    });
+                    pickerDialog.show();
+                }
             }
         });
+
+        datefield.getEditText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog pickerDialog = new DatePickerDialog(activity);
+
+                pickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar myCalendar = Calendar.getInstance();
+                        Date dia;
+                        myCalendar.set(year, month, dayOfMonth);
+                        dia = myCalendar.getTime();
+                        datefield.getEditText().setText(Tools.formattomyday(dia));
+                     }
+                });
+                pickerDialog.show();
+            }
+        });
+
+
+
 
 
         savebtn.setOnClickListener(new View.OnClickListener() {
@@ -88,21 +114,23 @@ public class Alerts {
                 savebtn.setEnabled(false);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
+                    ProgressDialog loading = new ProgressDialog(activity);
+                    loading.setMessage("Adicionando cliente...");
+                    loading.show();
                     Cliente cliente = new Cliente();
                     cliente.setNome(clientname.getEditText().getText().toString());
-                    cliente.setDataNascimento(datatext.getText().toString());
+                    cliente.setDataNascimento(datefield.getEditText().getText().toString());
                     cliente.setTelefone(phonefield.getEditText().getText().toString());
                     cliente.setEmail(emailfield.getEditText().getText().toString());
                     cliente.setDoctor(user.getUid());
 
                     saveclient(cliente);
-
-                            clientname.setVisibility(View.GONE);
-                            emailfield.setVisibility(View.GONE);
-                            phonefield.setVisibility(View.GONE);
-                            datatext.setVisibility(View.GONE);
-                            calendarView.setVisibility(View.GONE);
-                        title.setText("Cliente Adicionado com sucesso!");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        loading.dismiss();
+                    }
 
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
