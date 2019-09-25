@@ -67,12 +67,12 @@ public class Compromissedb {
         reference.child(id).child(Tools.compromises).child(compromisso.getId()).setValue(compromisso) ;
     }
 
-    public void Delete(Compromisso compromisso ){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(compromisso.getId());
+    public void Delete(Compromisso compromisso, String id ){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.agenda).child(id);
         reference.child(Tools.compromises).child(compromisso.getId()).removeValue();
     }
-    public void Update(Compromisso compromisso ,String id){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(compromisso.getId());
+    public void Update(Compromisso compromisso, String id){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.agenda).child(id);
         reference.child(Tools.compromises).child(compromisso.getId()).setValue(compromisso);
     }
 }

@@ -111,7 +111,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             @Override
             public void onClick(View v) {
                 Alerts alerts = new Alerts(activity);
-                alerts.Options(compromisso);
+                alerts.Options(compromisso,id);
             }
         });
         Animation in  = AnimationUtils.loadAnimation(activity,R.anim.fade_in);

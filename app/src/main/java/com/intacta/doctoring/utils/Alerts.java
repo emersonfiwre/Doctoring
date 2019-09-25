@@ -236,32 +236,9 @@ public class Alerts {
         dialog.show();
 
     }
-    private void timePicker(final Compromisso compromisso, final Calendar calendar){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final Agenda agenda = new Agenda(Tools.formattomyday(calendar.getTime()));
-
-        final Calendar calendartime = Calendar.getInstance();
-        final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        final int currentMinute = calendar.get(Calendar.MINUTE);
-
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                Log.i("LOG", hourOfDay + ":" + minutes);
-
-                calendartime.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                calendartime.set(Calendar.MINUTE,minutes);
-                compromisso.setTime(String.valueOf(calendartime.get(Calendar.HOUR_OF_DAY))+ ":" + String.valueOf(calendartime.get(Calendar.MINUTE)));
-                compromissedb.sendCompromisso(compromisso,calendar);
-            }
-        }, currentHour, currentMinute, true);
-        timePickerDialog.show();
-
-    }
 
 
-
-    public void Options(final Compromisso c){
+    public void Options(final Compromisso c, final String id){
         String[] options = {"Editar compromisso","Remover compromisso"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -271,18 +248,78 @@ public class Alerts {
                     Log.i("LOG",String.valueOf(which));
                     switch (which) {
                         case 0:
-                            //CompromissoAlert(c,id);
+                            UpdateCompromissoAlert(c, id);
                             //cd.Update(c, id);
                             break;
                         case 1:
                             Compromissedb cd = new Compromissedb(activity);
-                            cd.Delete(c);
+                            cd.Delete(c,id);
                             break;
                     }
                 }
             }).show();
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void UpdateCompromissoAlert(final Compromisso compromisso, final String id) {
+        AlertDialog.Builder db = new AlertDialog.Builder(activity, R.style.AppTheme);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View mView = inflater.inflate(R.layout.compromisso_dialog, null);
+        db.setView(mView);
 
+        final Spinner client = mView.findViewById(R.id.spinner_cliente);
+        final TextInputLayout service = mView.findViewById(R.id.txl_service);
+        final TextInputLayout data = mView.findViewById(R.id.txl_date);
+        final TextInputLayout time = mView.findViewById(R.id.txl_hour);
+        final Calendar calendar = Calendar.getInstance();
+
+
+        clientsdb = new Clientsdb(activity);
+        final List<Cliente> clienteList = new ArrayList<>();
+        clientsdb.loadCliente(client,clienteList);
+
+        data.setVisibility(View.GONE);
+        service.getEditText().setText(compromisso.getCompromisso());
+        time.getEditText().setText(compromisso.getTime());
+
+        time.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    final TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            calendar.set(Calendar.MINUTE, minute);
+                            time.getEditText().setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
+                        }
+                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                    timePickerDialog.show();
+                }
+            }
+
+        });
+
+        db.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Compromissedb cd = new Compromissedb(activity);
+
+                compromisso.setTime(time.getEditText().getText().toString());
+                compromisso.setCompromisso(service.getEditText().getText().toString());
+                compromisso.setCliente(clienteList.get(client.getSelectedItemPosition()).getId());
+
+                cd.Update(compromisso, id);
+            }
+        });
+        db.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        Dialog dialog = db.create();
+
+        dialog.show();
+
+    }
 
 }
 
