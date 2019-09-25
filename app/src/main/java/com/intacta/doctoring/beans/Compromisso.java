@@ -22,8 +22,6 @@ public class Compromisso {
     private String compromisso;
     private String cliente;
 
-
-
     public Compromisso(){}
 
 

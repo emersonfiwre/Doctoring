@@ -16,10 +16,8 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +31,7 @@ import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.database.Compromissedb;
 
 import java.util.ArrayList;
@@ -40,13 +39,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
 public class Alerts {
     private Activity activity;
-    private FireDatabase fireDatabase;
-
+    private Compromissedb compromissedb;
+    private  Clientsdb clientsdb;
 
     public Alerts(@NotNull Activity activity) {
         this.activity = activity;
@@ -170,9 +168,10 @@ public class Alerts {
         final DatePicker datePicker = mView.findViewById(R.id.date_compromisso);
         final Calendar calendar = Calendar.getInstance();
 
-        fireDatabase = new FireDatabase(activity);
+        compromissedb = new Compromissedb(activity);
+        clientsdb = new Clientsdb(activity);
         final List<Cliente> clienteList = new ArrayList<>();
-        fireDatabase.loadCliente(client,clienteList);
+        clientsdb.loadCliente(client,clienteList);
 
         db.setPositiveButton("Proximo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -206,10 +205,10 @@ public class Alerts {
         final Agenda agenda = new Agenda(user.getUid(),Tools.formattomyday(calendar.getTime()));
 
         final Calendar calendartime = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
+        final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int currentMinute = calendar.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
                 Log.i("LOG", hourOfDay + ":" + minutes);
@@ -217,22 +216,98 @@ public class Alerts {
                 calendartime.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendartime.set(Calendar.MINUTE,minutes);
                 compromisso.setTime(String.valueOf(calendartime.get(Calendar.HOUR_OF_DAY))+ ":" + String.valueOf(calendartime.get(Calendar.MINUTE)));
-                fireDatabase.sendCompromisso(compromisso,agenda,calendar);
-
+                compromissedb.sendCompromisso(compromisso,agenda,calendar);
             }
         }, currentHour, currentMinute, true);
         timePickerDialog.show();
 
     }
 
-    public void Delete(final Compromisso c, final String id){
-        String[] options = {"Remover compromisso"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    public void CompromissoAlert(final Compromisso compromisso, final String idAgenda) {
+        AlertDialog.Builder db = new AlertDialog.Builder(activity, R.style.AppTheme);
+        //db.setView(R.layout.compromisso_dialog);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View mView = inflater.inflate(R.layout.compromisso_dialog, null);
+        db.setView(mView);
+
+        final Spinner client = mView.findViewById(R.id.spinner_cliente);
+        final TextInputLayout service = mView.findViewById(R.id.txl_service);
+        final DatePicker datePicker = mView.findViewById(R.id.date_compromisso);
+        final Calendar calendar = Calendar.getInstance();
+
+        compromissedb= new Compromissedb(activity);
+        final List<Cliente> clienteList = new ArrayList<>();
+        clientsdb = new Clientsdb(activity);
+        clientsdb.loadCliente(client,clienteList);
+
+        db.setPositiveButton("Proximo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                service.getEditText().getText().toString();
+                int day = datePicker.getDayOfMonth();
+                int month = datePicker.getMonth();
+                int year = datePicker.getYear();
+                calendar.set(year, month, day);
+                //String data = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+                compromisso.setCompromisso(service.getEditText().getText().toString());
+                compromisso.setCliente(clienteList.get(client.getSelectedItemPosition()).getId());
+                timePicker(compromisso, calendar, idAgenda);
+
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        service.getEditText().setText(compromisso.getCompromisso());
+        Dialog dialog = db.create();
+        dialog.show();
+
+    }
+    private void timePicker(final Compromisso compromisso, final Calendar calendar, final String idAgenda){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final Agenda agenda = new Agenda(user.getUid(),Tools.formattomyday(calendar.getTime()));
+
+        final Calendar calendartime = Calendar.getInstance();
+        final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        final int currentMinute = calendar.get(Calendar.MINUTE);
+
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                Log.i("LOG", hourOfDay + ":" + minutes);
+
+                calendartime.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                calendartime.set(Calendar.MINUTE,minutes);
+                compromisso.setTime(String.valueOf(calendartime.get(Calendar.HOUR_OF_DAY))+ ":" + String.valueOf(calendartime.get(Calendar.MINUTE)));
+
+                Compromissedb cd = new Compromissedb(activity);
+                cd.Update(compromisso, idAgenda);
+            }
+        }, currentHour, currentMinute, true);
+        timePickerDialog.show();
+
+    }
+
+
+    public void Options(final Compromisso c, final String id){
+        String[] options = {"Editar compromisso","Remover compromisso"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setItems(options, new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Compromissedb cd = new Compromissedb();
-                    cd.Delete(c,id);
+                    Log.i("LOG",String.valueOf(which));
+                    switch (which) {
+                        case 0:
+                            CompromissoAlert(c,id);
+                            //cd.Update(c, id);
+                            break;
+                        case 1:
+                            Compromissedb cd = new Compromissedb(activity);
+                            cd.Delete(c, id);
+                            break;
+                    }
                 }
             }).show();
     }

@@ -22,17 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
-import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
-import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.database.Compromissedb;
 import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.utils.Tools;
 import com.leondzn.simpleanalogclock.SimpleAnalogClock;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -105,7 +101,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 compromisso.setDone(isChecked);
-                Compromissedb compromissedb = new Compromissedb();
+                Compromissedb compromissedb = new Compromissedb(activity);
                 compromissedb.Done(compromisso,id);
             }
         });
@@ -114,7 +110,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             @Override
             public void onClick(View v) {
                 Alerts alerts = new Alerts(activity);
-                alerts.Delete(compromisso,id);
+                alerts.Options(compromisso,id);
             }
         });
         Animation in  = AnimationUtils.loadAnimation(activity,R.anim.fade_in);

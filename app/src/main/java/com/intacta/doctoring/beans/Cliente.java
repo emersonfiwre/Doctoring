@@ -2,14 +2,12 @@ package com.intacta.doctoring.beans;
 
 public class Cliente {
 
+    private String doctor;
+    private String id;
     private String nome;
     private String telefone;
     private String email;
     private String dataNascimento;
-    private String id;
-
-
-
 
 
     public String getDoctor() {
@@ -20,9 +18,6 @@ public class Cliente {
         this.doctor = doctor;
     }
 
-    private String doctor;
-
-
     public Cliente(String nome, String telefone, String email, String dataNascimento, String id, String doctor) {
         this.nome = nome;
         this.telefone = telefone;
@@ -32,6 +27,9 @@ public class Cliente {
         this.doctor = doctor;
     }
 
+    public Cliente(String id) {
+        this.id = id;
+    }
     public Cliente() { }
 
 

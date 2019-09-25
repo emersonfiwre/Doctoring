@@ -8,15 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,15 +24,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.intacta.doctoring.adapters.ViewPagerAdapter;
-import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Alerts;
-
 import java.util.Collections;
 import java.util.List;
-
 import static com.intacta.doctoring.utils.Tools.RC_SIGN_IN;
 
-public class BottomNavActivity extends AppCompatActivity implements RecyclerViewOnClickListenerHack {
+public class BottomNavActivity extends AppCompatActivity {
     private Activity activity = this;
     private BottomNavigationView navView;
     private FrameLayout frame;
@@ -97,15 +90,7 @@ public class BottomNavActivity extends AppCompatActivity implements RecyclerView
         }
     }
 
-    @Override
-    public void onClickListener(View view, int position) {
-        Toast.makeText(this, "onClickListener(): " + position, Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onLongPressClickListener(View view, int position) {
-        Toast.makeText(this, "onLongPressClickListener(): " + position, Toast.LENGTH_SHORT).show();
-    }
 
 
     private void initView() {

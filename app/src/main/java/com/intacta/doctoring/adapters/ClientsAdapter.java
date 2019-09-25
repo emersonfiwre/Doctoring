@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Tools;
 
 import java.text.ParseException;
@@ -20,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHolder> {
-
 
     private Activity activity;
     private ArrayList<Cliente> clientes;
@@ -75,23 +75,19 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.MyViewHo
         return clientes.size();
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-
+    class MyViewHolder extends RecyclerView.ViewHolder  {
 
         private TextView name,email,age;
         public MyViewHolder(View view) {
             super(view);
 
-
             name = view.findViewById(R.id.name);
             email = view.findViewById(R.id.email);
             age = view.findViewById(R.id.age);
 
-
-
-
         }
     }
-
-
 }
+
+
+

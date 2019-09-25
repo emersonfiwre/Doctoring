@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +27,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.adapters.AgendaAdapter;
-import com.intacta.doctoring.adapters.ViewPagerAdapter;
 import com.intacta.doctoring.beans.Agenda;
-import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Tools;
 
 import java.util.ArrayList;
@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
                     Log.println(Log.INFO,"Agenda", String.format("there are %d agendas", compromissos.size()));
                     AgendaAdapter agendaAdapter = new AgendaAdapter(getActivity(),compromissos);
                     compromisserecycler.setAdapter(agendaAdapter);
+
                     GridLayoutManager llm = new GridLayoutManager(getActivity(),1,RecyclerView.VERTICAL,false);
                     compromisserecycler.setAdapter(agendaAdapter);
                     compromisserecycler.setLayoutManager(llm);
@@ -101,6 +102,7 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
 
     private void addTab(String title) {
         tabs.addTab(tabs.newTab().setText(title));

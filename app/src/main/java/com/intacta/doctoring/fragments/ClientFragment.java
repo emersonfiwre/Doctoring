@@ -2,9 +2,11 @@ package com.intacta.doctoring.fragments;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ import com.intacta.doctoring.R;
 import com.intacta.doctoring.adapters.ClientsAdapter;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.database.Clientsdb;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Tools;
 
 import java.util.ArrayList;
@@ -100,5 +103,7 @@ public class ClientFragment extends Fragment {
             }
         });
 
+
     }
+
 }

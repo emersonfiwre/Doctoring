@@ -18,13 +18,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
 import com.intacta.doctoring.utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHolder>{
+public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHolder> {
     private List<Agenda> mListCompromissos;
      private Activity activity;
 
@@ -86,14 +87,11 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
      }
 
 
-
-
-
-
     @Override
     public int getItemCount() {
         return mListCompromissos.size();
     }
+
 
     class MyViewHolder extends  RecyclerView.ViewHolder {
         TextView txtday;
