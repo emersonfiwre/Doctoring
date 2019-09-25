@@ -62,9 +62,9 @@ public class Compromissedb {
         });
     }
 
-    public void Done(Compromisso compromiss ){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.agenda).child(compromiss.getId());
-        reference.child(Tools.compromises).child(compromiss.getId()).setValue(compromiss);
+    public void Done(Compromisso compromisso,String id ){
+        DatabaseReference reference = Tools.agendapath();
+        reference.child(id).child(Tools.compromises).child(compromisso.getId()).setValue(compromisso) ;
     }
 
     public void Delete(Compromisso compromisso ){

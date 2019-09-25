@@ -16,18 +16,18 @@
 
             <ImageView
                 android:padding="5dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/white"
                 android:src="@drawable/ic_doctor_colour"
                 android:layout_width="match_parent"
                 android:layout_height="150dp" />
             <TextView
                 style="@style/ToolbarTitle"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/white"
                 android:fontFamily="@font/lato_black"
                 android:id="@+id/title"
                 android:padding="10dp"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimaryDark"
                 android:text="Adicionar novo paciente"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"

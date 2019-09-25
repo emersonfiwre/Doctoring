@@ -2,6 +2,11 @@ package com.intacta.doctoring.utils;
 
 import android.annotation.SuppressLint;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +26,17 @@ public class Tools {
 
     public static final int RC_SIGN_IN = 123;
 
+
+
+    public static DatabaseReference agendapath(){
+        FirebaseUser userf = FirebaseAuth.getInstance().getCurrentUser();
+        return FirebaseDatabase.getInstance().getReference(user).child(userf.getUid()).child(Tools.agenda);
+    }
+
+    public static DatabaseReference patientspath(){
+        FirebaseUser userf = FirebaseAuth.getInstance().getCurrentUser();
+        return FirebaseDatabase.getInstance().getReference(user).child(userf.getUid()).child(Tools.patients);
+    }
 
     public static Date parseDate(String date) {
         try {

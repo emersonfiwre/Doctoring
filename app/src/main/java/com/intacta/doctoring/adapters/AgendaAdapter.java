@@ -72,7 +72,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
 
                     Log.println(    Log.INFO,"Compromissos","Compromissos loaded " + compromissos.size());
                     GridLayoutManager llm = new GridLayoutManager(activity,1,RecyclerView.VERTICAL,false);
-                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos);
+                    CompromisesAdapter compromisesAdapter = new CompromisesAdapter(activity,compromissos,a.getId());
                     holder.compromissosrecycler.setAdapter(compromisesAdapter);
                     holder.compromissosrecycler.setLayoutManager(llm);
                 }else{
@@ -88,6 +88,10 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
         });
      }
 
+
+     private void LoadClient(){
+
+     }
 
     @Override
     public int getItemCount() {
