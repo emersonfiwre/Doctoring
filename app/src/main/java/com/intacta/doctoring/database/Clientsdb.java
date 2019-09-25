@@ -34,6 +34,7 @@ public class Clientsdb {
     public Clientsdb(Context context) {
         this.context = context;
     }
+
     public void saveclient(Cliente cliente, final ProgressDialog progressDialog){
          progressDialog.setMessage("Adicionando cliente");
         DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
