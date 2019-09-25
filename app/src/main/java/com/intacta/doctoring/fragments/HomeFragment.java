@@ -1,15 +1,16 @@
 package com.intacta.doctoring.fragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.adapters.AgendaAdapter;
 import com.intacta.doctoring.beans.Agenda;
-import com.intacta.doctoring.interfaces.RecyclerViewOnClickListenerHack;
+import com.intacta.doctoring.utils.Alerts;
 import com.intacta.doctoring.utils.Tools;
 
 import java.util.ArrayList;
@@ -42,8 +43,8 @@ public class HomeFragment extends Fragment {
     private AppBarLayout appbar;
     private Toolbar toolbar;
     private TabLayout tabs;
-    private ViewPager compromissespager;
-    private RecyclerView compromisserecycler;
+     private RecyclerView compromisserecycler;
+    private TextView addcompromisse;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +62,14 @@ public class HomeFragment extends Fragment {
     private void initView(View v) {
         compromisserecycler = v.findViewById(R.id.compromisserecycler);
         Carregar();
+        addcompromisse = (TextView) v.findViewById(R.id.addcompromisse);
+        addcompromisse.setOnClickListener(new View.OnClickListener() {
+             @Override
+            public void onClick(View v) {
+                Alerts alerts = new Alerts(getActivity());
+                alerts.CompromissoAlert();
+            }
+        });
     }
 
 
@@ -81,15 +90,14 @@ public class HomeFragment extends Fragment {
                         compromissos.add(a);
 
                     }
-                    Log.println(Log.INFO,"Agenda", String.format("there are %d agendas", compromissos.size()));
-                    AgendaAdapter agendaAdapter = new AgendaAdapter(getActivity(),compromissos);
+                    Log.println(Log.INFO, "Agenda", String.format("there are %d agendas", compromissos.size()));
+                    AgendaAdapter agendaAdapter = new AgendaAdapter(getActivity(), compromissos);
                     compromisserecycler.setAdapter(agendaAdapter);
-
-                    GridLayoutManager llm = new GridLayoutManager(getActivity(),1,RecyclerView.VERTICAL,false);
+                    GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, RecyclerView.VERTICAL, false);
                     compromisserecycler.setAdapter(agendaAdapter);
                     compromisserecycler.setLayoutManager(llm);
                 } else {
-                    Log.println(Log.INFO,"Agenda","NO AGENDAS FOUND ");
+                    Log.println(Log.INFO, "Agenda", "NO AGENDAS FOUND ");
 
                 }
 
@@ -102,7 +110,6 @@ public class HomeFragment extends Fragment {
         });
 
     }
-
 
     private void addTab(String title) {
         tabs.addTab(tabs.newTab().setText(title));
