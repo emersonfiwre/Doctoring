@@ -54,6 +54,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         holder.txtday.setText(sb);
 
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference compromissoreference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.agenda).child(a.getId()).child(Tools.compromises);
         compromissoreference.addValueEventListener(new ValueEventListener() {
