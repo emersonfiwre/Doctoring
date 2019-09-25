@@ -54,7 +54,7 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert() {
-        BottomSheetDialog dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        Dialog dialog = new Dialog(activity, R.style.Dialog_No_Border);
         dialog.setContentView(R.layout.client_dialog);
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
@@ -110,21 +110,24 @@ public class Alerts {
                 savebtn.setEnabled(false);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
-                    ProgressDialog loading = new ProgressDialog(activity);
-                    loading.setMessage("Adicionando cliente...");
-                    loading.show();
+
                     Cliente cliente = new Cliente();
                     cliente.setNome(clientname.getEditText().getText().toString());
                     cliente.setDataNascimento(datefield.getEditText().getText().toString());
                     cliente.setTelefone(phonefield.getEditText().getText().toString());
                     cliente.setEmail(emailfield.getEditText().getText().toString());
-                    saveclient(cliente);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        loading.dismiss();
+                    if (!cliente.getNome().isEmpty() && cliente.getEmail().isEmpty() && cliente.getTelefone().isEmpty()) {
+                        ProgressDialog loading = new ProgressDialog(activity);
+                        loading.setMessage("Adicionando cliente...");
+                        loading.show();
+                        saveclient(cliente,loading);
+                    }else{
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,R.style.AppTheme);
+                        alertDialog.setMessage("Preencha todos os campos");
+                        alertDialog.setNeutralButton("Ok",null);
+                        alertDialog.show();
                     }
+
 
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
@@ -150,9 +153,8 @@ public class Alerts {
     }
 
 
-    private void saveclient(Cliente cliente) {
-        final ProgressDialog progressDialog = new ProgressDialog(activity);
-        progressDialog.setMessage("Adicionando cliente");
+    private void saveclient(Cliente cliente,ProgressDialog progressDialog) {
+
         clientsdb = new Clientsdb(activity);
         clientsdb.saveclient(cliente,progressDialog);
 

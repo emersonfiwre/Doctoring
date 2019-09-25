@@ -25,8 +25,7 @@
 
     <style name="App.Button" parent="Widget.AppCompat.Button.Borderless">
 
-         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
-         <item name="android:background">@drawable/button</item>
+          <item name="android:background">@drawable/button</item>
          <item name="android:textStyle">bold</item>
          <item name="android:fontFamily">@font/lato_bold</item>
     </style>
