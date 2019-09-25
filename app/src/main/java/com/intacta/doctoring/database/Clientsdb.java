@@ -36,15 +36,14 @@ public class Clientsdb {
     }
 
     public void saveclient(Cliente cliente, final ProgressDialog progressDialog){
-         progressDialog.setMessage("Adicionando cliente");
         DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
         clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    progressDialog.setMessage("Cliente adicionado com sucesso!");
+                    progressDialog.setMessage("Paciente adicionado com sucesso!");
                 }else{
-                    progressDialog.setMessage("Erro ao salvar " + task.getException().getMessage());
+                    progressDialog.setMessage("Erro ao adicionar paciente " + task.getException().getMessage());
                 }
 
                 CountDownTimer timer = new CountDownTimer(1000,100) {

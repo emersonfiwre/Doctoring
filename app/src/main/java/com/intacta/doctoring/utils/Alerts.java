@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +55,7 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert() {
-        BottomSheetDialog dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
+        Dialog dialog = new Dialog(activity, R.style.Dialog_No_Border);
         dialog.setContentView(R.layout.client_dialog);
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
@@ -98,7 +99,7 @@ public class Alerts {
                         myCalendar.set(year, month, dayOfMonth);
                         dia = myCalendar.getTime();
                         datefield.getEditText().setText(Tools.formattomyday(dia));
-                     }
+                    }
                 });
                 pickerDialog.show();
             }
@@ -112,23 +113,34 @@ public class Alerts {
             @Override
             public void onClick(View v) {
                 savebtn.setEnabled(false);
+
+
+
+
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
-                    ProgressDialog loading = new ProgressDialog(activity);
-                    loading.setMessage("Adicionando cliente...");
-                    loading.show();
+
                     Cliente cliente = new Cliente();
                     cliente.setNome(clientname.getEditText().getText().toString());
                     cliente.setDataNascimento(datefield.getEditText().getText().toString());
                     cliente.setTelefone(phonefield.getEditText().getText().toString());
+
                     cliente.setEmail(emailfield.getEditText().getText().toString());
-                    saveclient(cliente);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        loading.dismiss();
+                    if (cliente.getNome().isEmpty() && cliente.getTelefone().isEmpty() && cliente.getEmail().isEmpty()){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity,R.style.AppTheme_Alert);
+                        builder.setMessage("Preencha todas as informações");
+                        builder.show();
+                        builder.setNeutralButton("Ok",null);
+                        savebtn.setEnabled(true);
+                    }else  {ProgressDialog loading = new ProgressDialog(activity);
+                        loading.setMessage("Adicionando cliente...");
+                        loading.show();
+                        saveclient(cliente,loading);
                     }
+
+
+
+
 
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("Desconectado!");
@@ -154,8 +166,7 @@ public class Alerts {
     }
 
 
-    private void saveclient(Cliente cliente) {
-        final ProgressDialog progressDialog = new ProgressDialog(activity);
+    private void saveclient(Cliente cliente,ProgressDialog progressDialog) {
         progressDialog.setMessage("Adicionando cliente");
         clientsdb = new Clientsdb(activity);
         clientsdb.saveclient(cliente,progressDialog);
@@ -300,23 +311,23 @@ public class Alerts {
     public void Options(final Compromisso c, final String id){
         String[] options = {"Editar compromisso","Remover compromisso"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Log.i("LOG",String.valueOf(which));
-                    switch (which) {
-                        case 0:
-                            CompromissoAlert(c,id);
-                            //cd.Update(c, id);
-                            break;
-                        case 1:
-                            Compromissedb cd = new Compromissedb(activity);
-                            cd.Delete(c, id);
-                            break;
-                    }
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("LOG",String.valueOf(which));
+                switch (which) {
+                    case 0:
+                        CompromissoAlert(c,id);
+                        //cd.Update(c, id);
+                        break;
+                    case 1:
+                        Compromissedb cd = new Compromissedb(activity);
+                        cd.Delete(c, id);
+                        break;
                 }
-            }).show();
+            }
+        }).show();
     }
 
 
