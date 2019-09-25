@@ -1,6 +1,5 @@
 package com.intacta.doctoring.database;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
 
