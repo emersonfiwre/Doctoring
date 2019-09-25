@@ -12,6 +12,7 @@ import java.util.Locale;
 
 
 public class Tools {
+    public static String user = "Users";
     public static String agenda = "Agenda";
     public static String compromises = "Compromissos";
     public static String patients = "Pacientes";

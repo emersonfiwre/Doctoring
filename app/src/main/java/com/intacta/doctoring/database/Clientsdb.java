@@ -29,14 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clientsdb {
-
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Context context;
     public Clientsdb(Context context) {
         this.context = context;
     }
     public void saveclient(Cliente cliente, final ProgressDialog progressDialog){
          progressDialog.setMessage("Adicionando cliente");
-        DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.patients);
+        DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
         clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -46,7 +46,7 @@ public class Clientsdb {
                     progressDialog.setMessage("Erro ao salvar " + task.getException().getMessage());
                 }
 
-                CountDownTimer timer = new CountDownTimer(2500,100) {
+                CountDownTimer timer = new CountDownTimer(1000,100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
 

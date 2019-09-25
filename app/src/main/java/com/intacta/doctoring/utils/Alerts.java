@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,7 +54,7 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert() {
-        Dialog dialog = new Dialog(activity, R.style.Dialog_No_Border);
+        BottomSheetDialog dialog = new BottomSheetDialog(activity, R.style.Dialog_No_Border);
         dialog.setContentView(R.layout.client_dialog);
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
@@ -66,7 +67,7 @@ public class Alerts {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){
-                    DatePickerDialog pickerDialog = new DatePickerDialog(activity,R.style.Theme_AppCompat_Light);
+                    final DatePickerDialog pickerDialog = new DatePickerDialog(activity);
 
                     pickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                         @Override
@@ -76,6 +77,7 @@ public class Alerts {
                             myCalendar.set(year, month, dayOfMonth);
                             dia = myCalendar.getTime();
                             datefield.getEditText().setText(Tools.formattomyday(dia));
+                            pickerDialog.dismiss();
                         }
                     });
                     pickerDialog.show();
@@ -120,8 +122,6 @@ public class Alerts {
                     cliente.setDataNascimento(datefield.getEditText().getText().toString());
                     cliente.setTelefone(phonefield.getEditText().getText().toString());
                     cliente.setEmail(emailfield.getEditText().getText().toString());
-                    cliente.setDoctor(user.getUid());
-
                     saveclient(cliente);
                     try {
                         Thread.sleep(1000);
@@ -154,32 +154,11 @@ public class Alerts {
     }
 
 
-    protected void saveclient(Cliente cliente) {
+    private void saveclient(Cliente cliente) {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage("Adicionando cliente");
-        DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.patients);
-        clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-        public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    progressDialog.setMessage("Cliente adicionado com sucesso!");
-                } else {
-                    progressDialog.setMessage("Erro ao salvar " + task.getException().getMessage());
-                }
-
-                CountDownTimer timer = new CountDownTimer(3500, 100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progressDialog.dismiss();
-                    }
-                }.start();
-            }
-        });
+        clientsdb = new Clientsdb(activity);
+        clientsdb.saveclient(cliente,progressDialog);
 
     }
 

@@ -2,6 +2,7 @@ package com.intacta.doctoring.fragments;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,8 +77,7 @@ public class ClientFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final ArrayList<Cliente> clientes = new ArrayList<>();
         clients.removeAllViews();
-        Query databasereference = FirebaseDatabase.getInstance().getReference().child(Tools.patients).orderByChild("doctor")
-                .startAt(user.getUid()).endAt(user.getUid() + "\uf8ff");
+        Query databasereference = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
         databasereference.keepSynced(true);
 
         databasereference.addValueEventListener(new ValueEventListener() {
@@ -85,18 +85,20 @@ public class ClientFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clientes.clear();
                 if (!dataSnapshot.exists()) {
+                    Log.println(Log.ERROR,"Client","NO CLIENTS FOUND");
                     Cliente c = new Cliente();
                     c.setId("No clients");
                     clientes.add(c);
+
                 } else {
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
                         Cliente ci = d.getValue(Cliente.class);
                         ci.setId(d.getKey());
-                        //System.out.println(diary.getData() + diary.getFiscal() + diary.getLocal());
+                        Log.println(Log.INFO,"Client", ci.getNome() + "\n"+ ci.getId());
                         clientes.add(ci);
                     }
                 }
-                System.out.println("There are " + clientes.size());
+                System.out.println("There are clients " + clientes.size());
                 ClientsAdapter clientsAdapter = new ClientsAdapter(getActivity(), clientes);
                 GridLayoutManager llm = new GridLayoutManager(getActivity(), 1, RecyclerView.VERTICAL, false);
                 clients.setAdapter(clientsAdapter);

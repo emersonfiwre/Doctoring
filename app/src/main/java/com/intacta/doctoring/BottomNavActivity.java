@@ -51,14 +51,7 @@ public class BottomNavActivity extends AppCompatActivity {
         startFirebase();
 
 
-        floatbutton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                Alerts alerts = new Alerts(activity);
-                alerts.CompromissoAlert();
-            }
-        });
+
 
 
     }
@@ -94,8 +87,7 @@ public class BottomNavActivity extends AppCompatActivity {
 
 
     private void initView() {
-        floatbutton = findViewById(R.id.floatbutton);
-        login();
+         login();
         AppBarLayout appbarlayout = findViewById(R.id.appbarlayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
