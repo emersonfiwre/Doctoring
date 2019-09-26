@@ -17,6 +17,8 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import com.firebase.ui.auth.AuthUI;
@@ -54,7 +56,7 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void ClientAlert() {
-        Dialog dialog = new Dialog(activity, R.style.Dialog_No_Border);
+        Dialog dialog = new Dialog(activity,R.style.Dialog_No_Border);
         dialog.setContentView(R.layout.client_dialog);
         final Button savebtn = dialog.findViewById(R.id.savebtn);
         final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
@@ -102,30 +104,27 @@ public class Alerts {
                 });
                 pickerDialog.show();
             }
+
         });
 
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savebtn.setEnabled(false);
+
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
-
-                    Cliente cliente = new Cliente();
-                    cliente.setNome(clientname.getEditText().getText().toString());
-                    cliente.setDataNascimento(datefield.getEditText().getText().toString());
-                    cliente.setTelefone(phonefield.getEditText().getText().toString());
-                    cliente.setEmail(emailfield.getEditText().getText().toString());
-                    if (!cliente.getNome().isEmpty() && cliente.getEmail().isEmpty() && cliente.getTelefone().isEmpty()) {
-                        ProgressDialog loading = new ProgressDialog(activity);
-                        loading.setMessage("Adicionando cliente...");
-                        loading.show();
-                        saveclient(cliente,loading);
+                    if (validaCampos(clientname,phonefield,datefield)) {
+                        Cliente cliente = new Cliente();
+                        cliente.setNome(clientname.getEditText().getText().toString());
+                        cliente.setDataNascimento(datefield.getEditText().getText().toString());
+                        cliente.setTelefone(phonefield.getEditText().getText().toString());
+                        cliente.setEmail(emailfield.getEditText().getText().toString());
+                        saveclient(cliente);
+                        savebtn.setEnabled(true);
                     }else{
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,R.style.AppTheme);
-                        alertDialog.setMessage("Preencha todos os campos");
-                        alertDialog.setNeutralButton("Ok",null);
-                        alertDialog.show();
+                        Toast.makeText(activity,"Insira os campos correntamente",Toast.LENGTH_LONG).show();
+                        savebtn.setEnabled(true);
                     }
 
 
@@ -151,10 +150,21 @@ public class Alerts {
         });
         dialog.show();
     }
+    private boolean validaCampos(TextInputLayout name, TextInputLayout phone,TextInputLayout date){
+
+        if(!name.getEditText().getText().toString().isEmpty() && !phone.getEditText().getText().toString().isEmpty() && !date.getEditText().getText().toString().isEmpty() ){
+            return true;
+        }
+
+        return false;
+    }
 
 
-    private void saveclient(Cliente cliente,ProgressDialog progressDialog) {
 
+
+    private void saveclient(Cliente cliente) {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setMessage("Adicionando cliente");
         clientsdb = new Clientsdb(activity);
         clientsdb.saveclient(cliente,progressDialog);
 
@@ -162,7 +172,7 @@ public class Alerts {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void CompromissoAlert() {
-        AlertDialog.Builder db = new AlertDialog.Builder(activity, R.style.AppTheme);
+        AlertDialog.Builder db = new AlertDialog.Builder(activity,  R.style.Dialog_With_Border);
         //db.setView(R.layout.compromisso_dialog);
         LayoutInflater inflater = activity.getLayoutInflater();
         View mView = inflater.inflate(R.layout.compromisso_dialog, null);
@@ -263,7 +273,7 @@ public class Alerts {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void UpdateCompromissoAlert(final Compromisso compromisso, final String id) {
-        AlertDialog.Builder db = new AlertDialog.Builder(activity, R.style.AppTheme);
+        AlertDialog.Builder db = new AlertDialog.Builder(activity, R.style.Dialog_With_Border);
         LayoutInflater inflater = activity.getLayoutInflater();
         View mView = inflater.inflate(R.layout.compromisso_dialog, null);
         db.setView(mView);

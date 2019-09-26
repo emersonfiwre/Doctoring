@@ -8,18 +8,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_calendar_colour"/>
     <TextView
         android:id="@+id/title"
-        android:background="@drawable/bottom_line"
+        android:background="@color/white"
         android:padding="10dp"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         android:text="Adicionar novo compromisso"
         style="@style/ToolbarTitle"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_margin="10dp"
         android:orientation="vertical"

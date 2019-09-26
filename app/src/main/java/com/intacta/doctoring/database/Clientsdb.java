@@ -29,6 +29,7 @@ public class Clientsdb {
     }
 
     public void saveclient(Cliente cliente, final ProgressDialog progressDialog){
+        progressDialog.show();
         DatabaseReference clientdb = FirebaseDatabase.getInstance().getReference(Tools.user).child(user.getUid()).child(Tools.patients);
         clientdb.push().setValue(cliente).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

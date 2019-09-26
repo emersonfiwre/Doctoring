@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Cliente;
@@ -41,39 +39,12 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
     private Activity activity;
     private ArrayList<Compromisso> compromissos;
     private String id;
-    private Cliente cliente;
 
     public CompromisesAdapter(Activity activity, ArrayList<Compromisso> compromissos, String id) {
         this.activity = activity;
         this.compromissos = compromissos;
         this.id = id;
     }
-
-
-    private void loadclient(Compromisso compromisso, final TextView ctxt){
-        DatabaseReference databaseReference = Tools.patientspath();
-        databaseReference.child(compromisso.getCliente()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot d : dataSnapshot.getChildren()) {
-                        Cliente ci = d.getValue(Cliente.class);
-                        ci.setId(d.getKey());
-                        cliente = ci;
-                        ctxt.setText(ci.getNome());
-                    }
-                }else{
-                    Toast.makeText(activity,"Cliente não encontrado",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-     }
 
 
     @NonNull
@@ -93,6 +64,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
         Log.println(Log.INFO,"Compromisso","Compromisso é " + compromisso.getCompromisso());
         holder.compromisse.setText(compromisso.getCompromisso());
         holder.time.setText(compromisso.getTime());
+
         Date time = Tools.parseTime(compromisso.getTime());
         Calendar rtime = Calendar.getInstance();
         rtime.setTime(time);
@@ -109,7 +81,7 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
             holder.compromisse.setPaintFlags(holder.compromisse.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.done.setChecked(true);
         }
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Tools.patients).child(compromisso.getCliente());
+        DatabaseReference reference = Tools.patientspath().child(compromisso.getCliente());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,7 +90,9 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
                     DataSnapshot d = dataSnapshot;
                     Cliente c = d.getValue(Cliente.class);
                     holder.client.setText(c.getNome());
-                 }
+                 }else{
+                    holder.client.setText("Cliente não encontrado");
+                }
             }
 
             @Override
@@ -145,8 +119,6 @@ public class CompromisesAdapter extends RecyclerView.Adapter<CompromisesAdapter.
         });
         Animation in  = AnimationUtils.loadAnimation(activity,R.anim.fade_in);
         holder.layout.startAnimation(in);
-        loadclient(compromisso,holder.client);
-
     }
 
     @Override
