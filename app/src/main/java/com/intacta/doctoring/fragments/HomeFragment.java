@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
         compromisserecycler = v.findViewById(R.id.compromisserecycler);
         Carregar();
         addcompromisse = (TextView) v.findViewById(R.id.addcompromisse);
+        addcompromisse.setVisibility(View.GONE);
         addcompromisse.setOnClickListener(new View.OnClickListener() {
              @Override
             public void onClick(View v) {
@@ -70,6 +71,7 @@ public class HomeFragment extends Fragment {
                 alerts.CompromissoAlert();
             }
         });
+
     }
 
 

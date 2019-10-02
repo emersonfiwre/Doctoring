@@ -22,6 +22,7 @@
             android:layout_height="150dp">
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/addpatient"
                 android:layout_gravity="top"
                 android:foreground="?attr/selectableItemBackground"

@@ -17,6 +17,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.intacta.doctoring.beans.Compromisso;
+import com.intacta.doctoring.utils.Alerts;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         startFirebase();
+
 
     }
     private void startFirebase(){

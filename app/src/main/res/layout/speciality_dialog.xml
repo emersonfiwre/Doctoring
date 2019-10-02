@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_centerInParent="true"
+         android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:padding="5dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_support_notes_colour"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+        <TextView
+            style="@style/ToolbarTitle"
+            android:background="@color/white"
+            android:fontFamily="@font/lato_black"
+            android:id="@+id/title"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Adicione uma especialidade para concluir"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:nextFocusRight="@id/emailfield"
+                android:id="@+id/clientname"
+                android:hint="Especialidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:backgroundTint="@color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:nextFocusRight="@id/emailfield"
+                android:id="@+id/price"
+                android:hint="Preço"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.wajahatkarim3.easymoneywidgets.EasyMoneyEditText
+                    android:backgroundTint="@color/transparent"
+                    android:id="@+id/moneyEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                     android:inputType="numberDecimal"
+                    app:show_currency="true"
+                    app:show_commas="true"
+                    app:currency_symbol="R$" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:textStyle="bold"
+            android:id="@+id/savebtn"
+            android:layout_width="match_parent"
+            android:background="@drawable/button"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:text="Salvar"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+
+
+
+</androidx.cardview.widget.CardView>
