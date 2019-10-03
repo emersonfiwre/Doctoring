@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -25,6 +27,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +42,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.adapters.GradientsAdapter;
 import com.intacta.doctoring.beans.Agenda;
 import com.intacta.doctoring.beans.Cliente;
 import com.intacta.doctoring.beans.Compromisso;
@@ -44,6 +50,7 @@ import com.intacta.doctoring.beans.Specialitie;
 import com.intacta.doctoring.database.Clientsdb;
 import com.intacta.doctoring.database.Compromissedb;
 import com.intacta.doctoring.database.Servicesdb;
+import com.intacta.doctoring.database.Specialitiesdb;
 import com.wajahatkarim3.easymoneywidgets.EasyMoneyEditText;
 
 import java.util.ArrayList;
@@ -174,7 +181,8 @@ public class Alerts {
         final Dialog dialog = new Dialog(activity,style);
         dialog.setContentView(R.layout.service_dialog);
         final TextInputLayout servicename = dialog.findViewById(R.id.clientname);
-        Button savebtn = dialog.findViewById(R.id.savebtn);
+         final Button savebtn = dialog.findViewById(R.id.savebtn);
+
 
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,13 +203,12 @@ public class Alerts {
 
         final Dialog dialog = new Dialog(activity,style);
         dialog.setContentView(R.layout.speciality_dialog);
-       ImageView icon = dialog.findViewById(R.id.icon);
-       TextView title = dialog.findViewById(R.id.title);
-      final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
-       TextInputLayout price = dialog.findViewById(R.id.price);
-       final EasyMoneyEditText moneyEditText = dialog.findViewById(R.id.moneyEditText);
-         Button savebtn = dialog.findViewById(R.id.savebtn);
-
+        ImageView icon = dialog.findViewById(R.id.icon);
+        TextView title = dialog.findViewById(R.id.title);
+        final TextInputLayout clientname = dialog.findViewById(R.id.clientname);
+        TextInputLayout price = dialog.findViewById(R.id.price);
+        final EasyMoneyEditText moneyEditText = dialog.findViewById(R.id.moneyEditText);
+        Button savebtn = dialog.findViewById(R.id.savebtn);
         title.setText("Adicione uma especialidade para concluir");
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -422,6 +429,15 @@ public class Alerts {
 
     public void selectspecialitie(String service){
         BottomSheetDialog mydialog = new BottomSheetDialog(activity,style);
+        mydialog.setContentView(R.layout.select_speciality_dialog);
+        RecyclerView specialities =  mydialog.findViewById(R.id.specialities);
+        Specialitiesdb specialitiesdb = new Specialitiesdb(activity);
+        specialitiesdb.carregar(specialities,service);
+
+        mydialog.show();
+
+
+
 
     }
 

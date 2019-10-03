@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Specialitie;
+import com.wajahatkarim3.easymoneywidgets.EasyMoneyTextView;
 
 import java.util.List;
 
@@ -35,13 +36,9 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapte
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Specialitie specialitie = specialities.get(holder.getAdapterPosition());
-         if (position == 0){
-            holder.name.setTextColor(Color.WHITE);
-            holder.name.setBackgroundResource(R.drawable.ripple_button);
-        }else{
-            holder.name.setTextColor(Color.WHITE);
-            holder.name.setBackgroundColor(activity.getResources().getColor(R.color.colorAccent));
-        }
+        holder.spname.setText(specialitie.getNome());
+        holder.sprice.setText(String.valueOf(specialitie.getPreco()));
+
      }
 
 
@@ -53,12 +50,12 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapte
 
 
     class MyViewHolder extends  RecyclerView.ViewHolder {
-        TextView name;
-
+        TextView spname;
+        EasyMoneyTextView sprice;
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            name= itemView.findViewById(R.id.name);
+            spname = (TextView) itemView.findViewById(R.id.spname);
+            sprice = (EasyMoneyTextView) itemView.findViewById(R.id.sprice);
           }
 
 

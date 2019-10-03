@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -71,15 +72,13 @@ public class ServicesFragment extends Fragment {
                 for (DataSnapshot d:dataSnapshot.getChildren()) {
                     services.add(d.getKey());
                 }
-                GridLayoutManager llm = new GridLayoutManager(getActivity(),2);
+                GridLayoutManager llm = new GridLayoutManager(getActivity(), 2,RecyclerView.VERTICAL,false);
                 llm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
-                        if (position == services.size() - 1){
-                            return 1;
-                        }else{
-                            return 2;
-                        }
+                        if (position == 1) return 1;
+                        else return 2;
+
                     }
                 });
                 compromisserecycler.setAdapter(new ServiceAdapter(getActivity(),services));

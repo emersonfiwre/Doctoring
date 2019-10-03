@@ -8,9 +8,12 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:padding="5dp"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:text="Selecione uma especialidade"
         style="@style/ToolbarTitle"
+        android:fontFamily="@font/lato_regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

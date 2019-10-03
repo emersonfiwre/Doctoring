@@ -103,7 +103,7 @@ public class BottomNavActivity extends AppCompatActivity {
         tabs.getTabAt(3).setText("Serviços");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        toolbar.setTitle("Olá " + user.getDisplayName());
+
 
     }
 

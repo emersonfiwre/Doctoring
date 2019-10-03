@@ -24,7 +24,7 @@ public class Tools {
     public static String notifications = "Notifications";
 
     public static DatabaseReference services = FirebaseDatabase.getInstance().getReference("Services");
-    public static final int RC_SIGN_IN = 123;
+     public static final int RC_SIGN_IN = 123;
 
 
 

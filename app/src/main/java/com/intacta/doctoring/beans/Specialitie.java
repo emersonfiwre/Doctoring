@@ -2,12 +2,25 @@ package com.intacta.doctoring.beans;
 
 public class Specialitie {
     String nome;
-    double preco;
 
-    public Specialitie(String nome, double preco) {
+    public Specialitie(String nome, String key, double preco) {
         this.nome = nome;
+        this.key = key;
         this.preco = preco;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    String key;
+    double preco;
+
+
 
     public Specialitie() {
     }
