@@ -67,7 +67,7 @@ public class ServicesFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> services = new ArrayList<>();
+                final ArrayList<String> services = new ArrayList<>();
                 for (DataSnapshot d:dataSnapshot.getChildren()) {
                     services.add(d.getKey());
                 }
@@ -75,7 +75,7 @@ public class ServicesFragment extends Fragment {
                 llm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
-                        if (position == 0){
+                        if (position == services.size() - 1){
                             return 1;
                         }else{
                             return 2;

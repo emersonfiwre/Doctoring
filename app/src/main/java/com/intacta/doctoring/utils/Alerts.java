@@ -419,5 +419,11 @@ public class Alerts {
 
     }
 
+
+    public void selectspecialitie(String service){
+        BottomSheetDialog mydialog = new BottomSheetDialog(activity,style);
+
+    }
+
 }
 

@@ -11,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
+import com.intacta.doctoring.beans.Specialitie;
 
 import java.util.List;
 
-public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> {
-    private List<String> servicelist;
+public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.MyViewHolder> {
+    private List<Specialitie> specialities;
      private Activity activity;
 
-    public ServiceAdapter(Activity activity, List<String> servicelist){
-        this.servicelist = servicelist;
+    public SpecialitiesAdapter(Activity activity, List<Specialitie> specialities){
+        this.specialities = specialities;
         this.activity = activity;
     }
 
@@ -27,14 +28,14 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
          LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        View v = layoutInflater.inflate(R.layout.services_layout,parent,false);
+        View v = layoutInflater.inflate(R.layout.speciality_card,parent,false);
          return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
-        holder.name.setText(servicelist.get(position));
-        if (position == 0){
+        Specialitie specialitie = specialities.get(holder.getAdapterPosition());
+         if (position == 0){
             holder.name.setTextColor(Color.WHITE);
             holder.name.setBackgroundResource(R.drawable.ripple_button);
         }else{
@@ -47,7 +48,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return servicelist.size();
+        return specialities.size();
     }
 
 

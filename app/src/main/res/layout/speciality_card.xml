@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+     android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+         android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:maxWidth="150dp"
+            android:id="@+id/spname"
+            android:textColor="@color/black"
+            android:padding="5dp"
+            android:textStyle="bold"
+             android:text="Cardiológico"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.wajahatkarim3.easymoneywidgets.EasyMoneyTextView
+            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@id/spname"
+            android:id="@+id/sprice"
+            android:padding="5dp"
+             android:text="10"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
