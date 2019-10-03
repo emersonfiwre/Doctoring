@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.intacta.doctoring.R;
 import com.intacta.doctoring.beans.Specialitie;
+import com.intacta.doctoring.utils.Alerts;
 import com.wajahatkarim3.easymoneywidgets.EasyMoneyTextView;
 
 import java.util.List;
@@ -19,11 +20,14 @@ import java.util.List;
 public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.MyViewHolder> {
     private List<Specialitie> specialities;
      private Activity activity;
+     private String service;
 
-    public SpecialitiesAdapter(Activity activity, List<Specialitie> specialities){
+    public SpecialitiesAdapter(List<Specialitie> specialities, Activity activity, String service) {
         this.specialities = specialities;
         this.activity = activity;
+        this.service = service;
     }
+
 
     @NonNull
     @Override
@@ -38,6 +42,22 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapte
         Specialitie specialitie = specialities.get(holder.getAdapterPosition());
         holder.spname.setText(specialitie.getNome());
         holder.sprice.setText(String.valueOf(specialitie.getPreco()));
+
+        if (specialitie.getKey().equals("add")){
+            holder.sprice.setVisibility(View.GONE);
+            holder.spname.setText("Adicionar especialidade");
+            holder.spname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Alerts a = new Alerts(activity);
+                    a.Specialitie(service);
+                }
+            });
+        }else{
+
+        }
+
+
 
      }
 

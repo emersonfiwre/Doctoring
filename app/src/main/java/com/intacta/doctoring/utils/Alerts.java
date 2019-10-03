@@ -199,7 +199,7 @@ public class Alerts {
 
     }
 
-    private void Specialitie(final String service) {
+    public void Specialitie(final String service) {
 
         final Dialog dialog = new Dialog(activity,style);
         dialog.setContentView(R.layout.speciality_dialog);
@@ -428,7 +428,7 @@ public class Alerts {
 
 
     public void selectspecialitie(String service){
-        BottomSheetDialog mydialog = new BottomSheetDialog(activity,style);
+        Dialog mydialog = new Dialog(activity,style);
         mydialog.setContentView(R.layout.select_speciality_dialog);
         RecyclerView specialities =  mydialog.findViewById(R.id.specialities);
         Specialitiesdb specialitiesdb = new Specialitiesdb(activity);

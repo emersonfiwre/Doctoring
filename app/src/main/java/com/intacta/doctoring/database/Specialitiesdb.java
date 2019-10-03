@@ -26,7 +26,7 @@ public class Specialitiesdb {
         this.activity = activity;
     }
 
-    public void carregar(final RecyclerView items, String service){
+    public void carregar(final RecyclerView items, final String service){
         DatabaseReference reference = Tools.services;
         reference.child(service).addValueEventListener(new ValueEventListener() {
             @Override
@@ -38,7 +38,8 @@ public class Specialitiesdb {
                        s.setKey(d.getKey());
                        specialities.add(s);
                     }
-                    SpecialitiesAdapter adapter = new SpecialitiesAdapter(activity,specialities);
+                    specialities.add(new Specialitie("add"));
+                    SpecialitiesAdapter adapter = new SpecialitiesAdapter(specialities,activity,service);
                     items.setAdapter(adapter);
                     GridLayoutManager llm = new GridLayoutManager(activity,1 ,LinearLayoutManager.VERTICAL,false);
                     items.setLayoutManager(llm);
