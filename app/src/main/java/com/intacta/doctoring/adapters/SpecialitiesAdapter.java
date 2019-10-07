@@ -16,6 +16,7 @@ import com.intacta.doctoring.utils.Alerts;
 import com.wajahatkarim3.easymoneywidgets.EasyMoneyTextView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapter.MyViewHolder> {
     private List<Specialitie> specialities;
@@ -40,12 +41,12 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapte
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Specialitie specialitie = specialities.get(holder.getAdapterPosition());
-        holder.spname.setText(specialitie.getNome());
-        holder.sprice.setText(String.valueOf(specialitie.getPreco()));
+
 
         if (specialitie.getKey().equals("add")){
             holder.sprice.setVisibility(View.GONE);
             holder.spname.setText("Adicionar especialidade");
+            holder.spname.setTextColor(Color.LTGRAY);
             holder.spname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,7 +55,9 @@ public class SpecialitiesAdapter extends RecyclerView.Adapter<SpecialitiesAdapte
                 }
             });
         }else{
-
+            holder.spname.setText(specialitie.getNome());
+            holder.sprice.setText(String.valueOf(specialitie.getPreco()));
+            holder.sprice.setCurrency(Locale.getDefault());
         }
 
 

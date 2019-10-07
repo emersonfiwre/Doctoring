@@ -30,7 +30,7 @@
             android:padding="10dp"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:text="Adicione uma especialidade para concluir"
+            android:text="Adicione uma especialidade"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
